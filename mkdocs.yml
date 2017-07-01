@@ -1,0 +1,46 @@
+site_name: Odooku
+site_description: Run Odoo on Heroku (more platforms coming)
+site_author: Raymond Reggers
+site_url: http://adaptivdesign.github.io/odooku/
+copyright: Copyright (c) 2017 Raymond Reggers
+
+theme: 'material'
+
+repo_name: 'GitHub'
+repo_url: 'https://github.com/adaptivdesign/odooku'
+
+# Theme customization
+extra:
+  version: '10.0'
+  author:
+    github: 'adaptivdesign'
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+  palette:
+    primary: 'deep purple'
+    accent: 'deep orange'
+
+# Extensions
+markdown_extensions:
+  - codehilite:
+  - admonition:
+  - toc:
+      permalink: '#'
+
+# Page tree
+pages:
+  - Odooku: index.md
+  - Getting started: getting-started.md
+  - Commands:
+    - wsgi: commands/wsgi.md
+  - Topics:
+    - S3 Storage: topics/s3.md
+    - SSL: topics/s3.md
+    - Redirection: topics/websockets.md
+    - Scaling: topics/scaling.md
+    - Databases: topics/databases.md
+    - Security: topics/security.md
+    - Cron jobs: topics/cron.md
+    - Websockets: topics/websockets.md
+    - New Relic: topics/new-relic.md

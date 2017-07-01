@@ -1,0 +1,44 @@
+# Common OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Development files
+.devoku
+.vagrant
+.bundle
+
+# Database dumps
+*.dump
+*.zip
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+*.egg-info/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Other logs
+*.log
+
+# virtualenv
+.venv/
+venv/
+ENV/
+
+# Mkdocs
+site/

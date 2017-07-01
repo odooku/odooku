@@ -1,0 +1,39 @@
+include LICENSE
+include LICENSE_ODOO
+include README.md
+recursive-include odooku *.css
+recursive-include odooku *.csv
+recursive-include odooku *.doc
+recursive-include odooku *.eml
+recursive-include odooku *.eot
+recursive-include odooku *.gif
+recursive-include odooku *.html
+recursive-include odooku *.ico
+recursive-include odooku *.jpeg
+recursive-include odooku *.jpg
+recursive-include odooku *.js
+recursive-include odooku *.less
+recursive-include odooku *.md
+recursive-include odooku *.mp3
+recursive-include odooku *.ogg
+recursive-include odooku *.otf
+recursive-include odooku *.pdf
+recursive-include odooku *.png
+recursive-include odooku *.po
+recursive-include odooku *.rml
+recursive-include odooku *.rng
+recursive-include odooku *.rst
+recursive-include odooku *.sass
+recursive-include odooku *.sql
+recursive-include odooku *.svg
+recursive-include odooku *.template
+recursive-include odooku *.txt
+recursive-include odooku *.ttf
+recursive-include odooku *.woff
+recursive-include odooku *.woff2
+recursive-include odooku *.wsdl
+recursive-include odooku *.xls
+recursive-include odooku *.xsd
+recursive-include odooku *.xsl
+recursive-include odooku *.xml
+recursive-include odooku *.yml
