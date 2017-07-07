@@ -1,5 +1,4 @@
 include LICENSE
-include LICENSE_ODOO
 include README.md
 recursive-include odooku *.css
 recursive-include odooku *.csv
