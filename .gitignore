@@ -28,6 +28,7 @@ __pycache__/
 *.egg-info/
 *.egg
 /build
+/dist
 
 # Installer logs
 pip-log.txt
