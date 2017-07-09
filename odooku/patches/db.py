@@ -169,8 +169,13 @@ class patch_list_dbs(SoftPatch):
     @staticmethod
     def apply_patch():
 
+        from odooku.params import params
+
         original_list_dbs = list_dbs
         def patched_list_dbs(force=False):
+            if params.no_db:
+                return []
+            
             if odoo.tools.config['db_name']:
                 return odoo.tools.config['db_name'].split(',')
             return original_list_dbs(force)
