@@ -12,7 +12,6 @@ import logging
 @click.group()
 @click.option(
     '--database-url',
-    required=True,
     envvar="DATABASE_URL",
     help="[database type]://[username]:[password]@[host]:[port]/[database name]"
 )
@@ -21,25 +20,19 @@ import logging
     default=20,
     envvar=prefix_envvar("DATABASE_MAXCONN"),
     type=click.INT,
-    help="""
-    Maximum number of database connections per worker.
-    See Heroku Postgres plans.
-    """
+    help="Maximum number of database connections per worker."
+)
+@click.option(
+    '--redis-url',
+    envvar="REDIS_URL",
+    help="redis://[password]@[host]:[port]/[database number]"
 )
 @click.option(
     '--redis-maxconn',
     default=20,
     envvar=prefix_envvar("REDIS_MAXCONN"),
     type=click.INT,
-    help="""
-    Maximum number of redis connections per worker.
-    See Heroku Redis plans.
-    """
-)
-@click.option(
-    '--redis-url',
-    envvar="REDIS_URL",
-    help="redis://[password]@[host]:[port]/[database number]"
+    help="Maximum number of redis connections per worker."
 )
 @click.option(
     '--aws-access-key-id',
@@ -79,14 +72,15 @@ import logging
 )
 @click.option(
     '--addons',
-    required=True,
     callback=resolve_addons,
-    envvar=prefix_envvar('ADDONS')
+    envvar=prefix_envvar('ADDONS'),
+    help="Addon directory path(s)."
 )
 @click.option(
     '--tmp-dir',
     default='/tmp/odooku',
-    envvar=prefix_envvar('TMP_DIR')
+    envvar=prefix_envvar('TMP_DIR'),
+    help="Temporary directory for caching filestore."
 )
 @click.option(
     '--debug',
@@ -145,22 +139,23 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
     odoo.multi_process = True
 
     # Patch odoo config
-    database_url = urlparse.urlparse(database_url)
     config.parse_config()
-    db_name = database_url.path[1:] if database_url.path else False
     config['data_dir'] = tmp_dir
     config['addons_path'] = addons
-    config['db_name'] = db_name
-    config['db_user'] = database_url.username
-    config['db_password'] = database_url.password
-    config['db_host'] = database_url.hostname
-    config['db_port'] = database_url.port
-    config['db_maxconn'] = database_maxconn
-
     config['demo'] = {}
     config['without_demo'] = 'all'
     config['debug_mode'] = debug
-    config['list_db'] = not bool(db_name)
+
+    if database_url:
+        database_url = urlparse.urlparse(database_url)
+        db_name = database_url.path[1:] if database_url.path else False
+        config['db_name'] = db_name
+        config['db_user'] = database_url.username
+        config['db_password'] = database_url.password
+        config['db_host'] = database_url.hostname
+        config['db_port'] = database_url.port
+        config['db_maxconn'] = database_maxconn
+        config['list_db'] = not bool(db_name)
 
     logger = logging.getLogger(__name__)
     ctx.obj.update({

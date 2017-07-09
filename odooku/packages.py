@@ -2,11 +2,12 @@ import os.path
 import importlib
 
 from odooku.helpers.env import get_envvar
+from odooku.helpers.split import split
 from odooku.params import params
 
 
 def init_packages():
-    for module_name in (part for part in get_envvar('PACKAGES', '').split(',') if part):
+    for module_name in split(get_envvar('PACKAGES', ''), ','):
         try:
             module = importlib.import_module(module_name)
         except ImportError:

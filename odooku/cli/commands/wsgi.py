@@ -6,6 +6,7 @@ import gevent
 from werkzeug._reloader import run_with_reloader
 
 from odooku.helpers.env import prefix_envvar
+from odooku.cli.resolve import resolve_comma_seperated
 
 try:
     from newrelic import agent as newrelic_agent
@@ -66,13 +67,20 @@ __all__ = [
     help="Time between cron cycles."
 )
 @click.option(
+    '--server-modules',
+    default='web,web_kanban',
+    callback=resolve_comma_seperated,
+    envvar=prefix_envvar('SERVER_MODULES'),
+    help="Server-wide modules to load."
+)
+@click.option(
     '--dev',
     is_flag=True,
     envvar=prefix_envvar('DEV')
 )
 @click.pass_context
 def wsgi(ctx, port, timeout, cdn, proxy_mode, admin_password,
-        db_filter, ws, cron, cron_interval, dev):
+        db_filter, ws, cron, cron_interval, server_modules, dev):
 
     debug, config, params, logger = (
         ctx.obj['debug'],
@@ -88,6 +96,7 @@ def wsgi(ctx, port, timeout, cdn, proxy_mode, admin_password,
     config['dev_mode'] = ['all']
     config['admin_passwd'] = admin_password
     config['dbfilter'] = db_filter
+    config['server_modules'] = server_modules
 
     if ws:
         from odooku.services.websocket import WebSocketServer as Server

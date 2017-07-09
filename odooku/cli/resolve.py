@@ -3,15 +3,20 @@ import os.path
 import odooku
 
 from odooku.params import params
+from odooku.helpers.split import split
 
 
 DEFAULT_ADDONS = [
     os.path.join(os.path.dirname(odooku.__file__), 'addons')
 ]
 
+
+def resolve_comma_seperated(ctx, param, value):
+    return split(value, ',')
+
+
 def resolve_addons(ctx, param, value):
-    addons = value.split(',')
-    addons = list(set(addons) | set(DEFAULT_ADDONS) | set(params.addon_paths))
+    addons = list(set(split(value, ',')) | set(DEFAULT_ADDONS) | set(params.addon_paths))
     return ','.join(addons)
 
 
@@ -39,6 +44,7 @@ def resolve_db_name(ctx, param, value):
     raise click.BadParameter(
         "no db name given."
     )
+
 
 def resolve_db_name_multiple(ctx, param, value):
     from odoo.service.db import list_dbs

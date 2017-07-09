@@ -2,7 +2,6 @@ import click
 import tempfile
 import sys
 import os
-from contextlib import closing
 
 from odooku.cli.resolve import resolve_db_name, resolve_db_name_multiple
 
@@ -132,8 +131,7 @@ def dump(ctx, db_name, s3_file):
 
 @click.command()
 @click.option(
-    '--db-name',
-    callback=resolve_db_name
+    '--db-name'
 )
 @click.option(
     '--copy',
