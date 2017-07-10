@@ -1,5 +1,6 @@
 from odooku.patch import HardPatch
 
+
 class patch_bus(HardPatch):
 
     @staticmethod

@@ -4,3 +4,4 @@ from . import db
 from . import ir_qweb
 from . import bus
 from . import lru
+from . import ctypes

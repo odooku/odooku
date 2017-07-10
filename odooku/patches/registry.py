@@ -1,5 +1,6 @@
 from odooku.patch import SoftPatch
 
+
 class patch_registry_concurrency(SoftPatch):
 
     @staticmethod
