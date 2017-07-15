@@ -176,6 +176,8 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
         config['db_port'] = database_url.port
         config['db_maxconn'] = database_maxconn
         config['list_db'] = not bool(db_name)
+    else:
+        params.no_db = True
 
     ctx.obj.update({
         'debug': debug,

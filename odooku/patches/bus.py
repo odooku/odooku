@@ -1,5 +1,6 @@
 from odooku.patch import HardPatch
 
+
 class patch_bus(HardPatch):
 
     @staticmethod
@@ -198,7 +199,10 @@ class patch_bus(HardPatch):
                 # PATCH !!
                 # Force gevent mode
                 self.Event = Event
-                gevent.spawn(self.run)
+                if not params.no_db:
+                    gevent.spawn(self.run)
+                else:
+                    _logger.info("Bus disabled: no db mode")
                 return self
 
         dispatch = ImDispatch().start()

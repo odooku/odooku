@@ -5,6 +5,7 @@ from werkzeug.contrib.fixers import ProxyFix
 import odoo.http
 from odoo.service.wsgi_server import application_unproxied as odoo_application
 from odoo.tools import config
+from odoo.modules.module import load_openerp_module
 
 import logging
 import greenlet
@@ -29,8 +30,14 @@ class WSGIServer(BaseWSGIServer):
         ), log=_logger, **kwargs)
 
 
+    def load_server_wide_modules(self):
+        for module in config['server_wide_modules']:
+            load_openerp_module(module)
+
+
     def load(self, proxy_mode=False, rules=None, newrelic_agent=None):
         _logger.info("Loading Odoo WSGI application")
+        self.load_server_wide_modules()
 
         application = odoo_application
 

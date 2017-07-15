@@ -54,15 +54,6 @@ class patch_root(SoftPatch):
                     _logger.info("HTTP sessions stored locally in: %s", path)
                     return werkzeug.contrib.sessions.FilesystemSessionStore(path, session_class=OpenERPSession)
 
-            def setup_db(self, httprequest):
-                db = httprequest.session.db
-                if db and db not in odoo.service.db.list_dbs(True):
-                    _logger.warn("Logged into database '%s', but db list "
-                                 "rejects it; logging session out.", db)
-                    httprequest.session.logout()
-                    httprequest.session.db = None
-                self.setup_db_(httprequest)
-
             def setup_session(self, httprequest):
                 if isinstance(self.session_store, RedisSessionStore):
                     sid = httprequest.args.get('session_id')

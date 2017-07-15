@@ -67,7 +67,7 @@ __all__ = [
     help="Time between cron cycles."
 )
 @click.option(
-    '--server-modules',
+    '--server-wide-modules',
     default='web,web_kanban',
     callback=resolve_comma_seperated,
     envvar=prefix_envvar('SERVER_MODULES'),
@@ -80,7 +80,7 @@ __all__ = [
 )
 @click.pass_context
 def wsgi(ctx, port, timeout, cdn, proxy_mode, admin_password,
-        db_filter, ws, cron, cron_interval, server_modules, dev):
+        db_filter, ws, cron, cron_interval, server_wide_modules, dev):
 
     debug, config, params, logger = (
         ctx.obj['debug'],
@@ -96,7 +96,10 @@ def wsgi(ctx, port, timeout, cdn, proxy_mode, admin_password,
     config['dev_mode'] = ['all']
     config['admin_passwd'] = admin_password
     config['dbfilter'] = db_filter
-    config['server_modules'] = server_modules
+    config['server_wide_modules'] = server_wide_modules
+    # Odoo still uses a deprecated conf module for server_wide_modules
+    import odoo.conf
+    odoo.conf.server_wide_modules = server_wide_modules
 
     if ws:
         from odooku.services.websocket import WebSocketServer as Server
