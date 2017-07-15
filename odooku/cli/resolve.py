@@ -20,7 +20,7 @@ def resolve_addons(ctx, param, value):
     return ','.join(addons)
 
 
-def resolve_db_name(ctx, param, value):
+def resolve_db_name(ctx, param, value, exists=True):
     from odoo.service.db import list_dbs
 
     config = (
@@ -32,18 +32,27 @@ def resolve_db_name(ctx, param, value):
         dbs = list_dbs(True)
 
     if value:
-        if dbs is not None and value not in dbs:
-            raise click.BadParameter(
-                "No such db '%s'." % value
-            )
+        if dbs is not None:
+            if exists and value not in dbs:
+                raise click.BadParameter(
+                    "No such db '%s'." % value
+                )
+            elif not exists and value in dbs:
+                raise click.BadParameter(
+                    "Given db already exists '%s'." % value
+                )
         return value
-    elif dbs is not None and len(dbs) == 1:
+    elif exists and dbs is not None and len(dbs) == 1:
         # Running in single db mode, safe to assume the db.
         return dbs[0]
 
     raise click.BadParameter(
-        "no db name given."
+        "No db name given."
     )
+
+
+def resolve_db_name_new(ctx, param, value):
+    return resolve_db_name(ctx, param, value, exists=False)
 
 
 def resolve_db_name_multiple(ctx, param, value):

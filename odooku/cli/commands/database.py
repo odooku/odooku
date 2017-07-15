@@ -3,7 +3,11 @@ import tempfile
 import sys
 import os
 
-from odooku.cli.resolve import resolve_db_name, resolve_db_name_multiple
+from odooku.cli.resolve import (
+    resolve_db_name,
+    resolve_db_name_new,
+    resolve_db_name_multiple
+)
 
 
 __all__ = [
@@ -86,11 +90,12 @@ def newdbuuid(ctx, db_name):
     )
 
     from odoo.modules.registry import RegistryManager
+    from odooku.api import environment
 
     registry = RegistryManager.get(db_name)
-    with Environment.manage():
-        with registry.cursor() as cr:
-            registry['ir.config_parameter'].init(cr, force=True)
+    with registry.cursor() as cr:
+        with environment(cr) as env:
+            env['ir.config_parameter'].init(force=True)
 
 
 @click.command()
@@ -131,7 +136,8 @@ def dump(ctx, db_name, s3_file):
 
 @click.command()
 @click.option(
-    '--db-name'
+    '--db-name',
+    callback=resolve_db_name_new
 )
 @click.option(
     '--copy',

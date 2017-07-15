@@ -1,7 +1,5 @@
 import sys
-import logging
 import socket
-import traceback
 import threading
 import logging
 from logging.config import dictConfig

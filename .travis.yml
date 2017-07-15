@@ -1,5 +1,35 @@
 dist: trusty
-language: bash
+language: python
+
+python:
+  - '2.7'
 
 services:
   - docker
+
+env:
+  - DATABASE_URL=postgres://odoo:odoo@localhost:5432
+  - REDIS_URL=redis://localhost:6379
+  - S3_BUCKET=odooku
+  - S3_ENDPOINT_URL=http://localhost:4569
+  - S3_CUSTOM_DOMAIN=http://odooku.localhost:4569
+  - AWS_ACCESS_KEY_ID=foobar
+  - AWS_SECRET_ACCESS_KEY=foobar
+
+install:
+  - pip install -r requirements.travis.txt
+  - python setup.py install
+  - npm install -g less
+  - npm install -g phantomjs-prebuilt
+
+before_script:
+  - docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=odoo -e POSTGRES_USER=odoo -d postgres:9.5
+  - docker run --name redis -p 6379:6379 -d redis:latest
+  - docker run --name s3 -p 4569:4569 -d lphoward/fake-s3:latest -r /fakes3_root -p 4569 -H localhost
+
+script:
+  - odooku runtests --db-name test
+    --module test_assetsbundle
+    --module l10n_generic_coa
+    --module account
+    --module sale

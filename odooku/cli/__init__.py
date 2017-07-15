@@ -8,6 +8,11 @@ from odooku.cli.resolve import resolve_addons
 
 import logging
 
+try:
+    import ptvsd
+except ImportError:
+    ptvsd = None
+
 
 @click.group()
 @click.option(
@@ -88,6 +93,10 @@ import logging
     envvar=prefix_envvar('DEBUG')
 )
 @click.option(
+    '--ptvsd-url',
+    envvar=prefix_envvar('PTVSD_URL')
+)
+@click.option(
     '--statsd-host',
     envvar=prefix_envvar('STATSD_HOST')
 )
@@ -95,11 +104,14 @@ import logging
 def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
         aws_access_key_id, aws_secret_access_key, aws_region, s3_bucket,
         s3_endpoint_url, s3_custom_domain, s3_addressing_style,
-        addons, tmp_dir, debug, statsd_host):
+        addons, tmp_dir, debug, ptvsd_url, statsd_host):
 
     # Setup logger first, then import further modules
     import odooku.logger
     odooku.logger.setup(debug=debug, statsd_host=statsd_host)
+
+    logger = logging.getLogger(__name__)
+
     from odooku.backends import register_backend
     from odooku.backends.s3 import S3Backend
     from odooku.backends.redis import RedisBackend
@@ -127,6 +139,14 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
             maxconn=redis_maxconn
         ))
 
+    # Setup PTVSD
+    if ptvsd_url:
+        if ptvsd:
+            ptvsd_url = urlparse.urlparse(ptvsd_url)
+            ptvsd.enable_attach(ptvsd_url.password, address = (ptvsd_url.hostname, ptvsd_url.port))
+            logger.warning("PTVSD Enabled")
+        else:
+            logger.warning("PTVSD_URL configured but PTVSD not found.")
 
     # Setup Odoo
     import odoo
@@ -157,7 +177,6 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
         config['db_maxconn'] = database_maxconn
         config['list_db'] = not bool(db_name)
 
-    logger = logging.getLogger(__name__)
     ctx.obj.update({
         'debug': debug,
         'config': config,
