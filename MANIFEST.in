@@ -14,6 +14,7 @@ recursive-include odooku *.js
 recursive-include odooku *.less
 recursive-include odooku *.md
 recursive-include odooku *.mp3
+recursive-include odooku *.ods
 recursive-include odooku *.ogg
 recursive-include odooku *.otf
 recursive-include odooku *.pdf
@@ -32,6 +33,7 @@ recursive-include odooku *.woff
 recursive-include odooku *.woff2
 recursive-include odooku *.wsdl
 recursive-include odooku *.xls
+recursive-include odooku *.xlsx
 recursive-include odooku *.xsd
 recursive-include odooku *.xsl
 recursive-include odooku *.xml

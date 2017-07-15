@@ -96,7 +96,7 @@ def wsgi(ctx, port, timeout, cdn, proxy_mode, admin_password,
     config['dev_mode'] = ['all']
     config['admin_passwd'] = admin_password
     config['dbfilter'] = db_filter
-    config['server_wide_modules'] = server_wide_modules
+    config['server_wide_modules'] = ','.join(server_wide_modules)
     # Odoo still uses a deprecated conf module for server_wide_modules
     import odoo.conf
     odoo.conf.server_wide_modules = server_wide_modules

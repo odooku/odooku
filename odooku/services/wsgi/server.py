@@ -3,6 +3,7 @@ from werkzeug.debug import DebuggedApplication
 from werkzeug.contrib.fixers import ProxyFix
 
 import odoo.http
+from odoo import conf
 from odoo.service.wsgi_server import application_unproxied as odoo_application
 from odoo.tools import config
 from odoo.modules.module import load_openerp_module
@@ -31,7 +32,7 @@ class WSGIServer(BaseWSGIServer):
 
 
     def load_server_wide_modules(self):
-        for module in config['server_wide_modules']:
+        for module in conf.server_wide_modules:
             load_openerp_module(module)
 
 
