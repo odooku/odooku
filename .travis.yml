@@ -23,7 +23,6 @@ install:
   - pip install -r requirements.travis.txt
   - pip install .
   - sudo npm install -g less
-  - sudo npm install -g phantomjs-prebuilt
 
 before_script:
   - docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=odoo -e POSTGRES_USER=odoo -d postgres:9.5
