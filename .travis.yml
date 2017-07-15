@@ -20,7 +20,7 @@ env:
 install:
   - sudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libssl-dev nodejs npm
   - pip install -r requirements.travis.txt
-  - python setup.py install
+  - pip install .
   - sudo npm install -g less
   - sudo npm install -g phantomjs-prebuilt
 
