@@ -6,11 +6,13 @@ python:
   - '2.7'
 
 services:
+  - postgresql: "9.5"
+  - redis-server
   - docker
 
 env:
   global:
-    - DATABASE_URL=postgres://odoo:odoo@localhost:5432
+    - DATABASE_URL=postgres://postgres:@localhost:5432
     - REDIS_URL=redis://localhost:6379
     - S3_BUCKET=odooku
     - S3_ENDPOINT_URL=http://localhost:4569
@@ -25,8 +27,6 @@ install:
   - sudo npm install -g less
 
 before_script:
-  - docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=odoo -e POSTGRES_USER=odoo -d postgres:9.5
-  - docker run --name redis -p 6379:6379 -d redis:latest
   - docker run --name s3 -p 4569:4569 -d lphoward/fake-s3:latest -r /fakes3_root -p 4569 -H localhost
 
 script:
