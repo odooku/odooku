@@ -9,13 +9,14 @@ services:
   - docker
 
 env:
-  - DATABASE_URL=postgres://odoo:odoo@localhost:5432
-  - REDIS_URL=redis://localhost:6379
-  - S3_BUCKET=odooku
-  - S3_ENDPOINT_URL=http://localhost:4569
-  - S3_CUSTOM_DOMAIN=http://odooku.localhost:4569
-  - AWS_ACCESS_KEY_ID=foobar
-  - AWS_SECRET_ACCESS_KEY=foobar
+  global:
+    - DATABASE_URL=postgres://odoo:odoo@localhost:5432
+    - REDIS_URL=redis://localhost:6379
+    - S3_BUCKET=odooku
+    - S3_ENDPOINT_URL=http://localhost:4569
+    - S3_CUSTOM_DOMAIN=http://odooku.localhost:4569
+    - AWS_ACCESS_KEY_ID=foobar
+    - AWS_SECRET_ACCESS_KEY=foobar
 
 install:
   - sudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libssl-dev nodejs npm
