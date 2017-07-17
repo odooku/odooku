@@ -1,1 +1,2 @@
 git+https://github.com/odooku/odooku-odoo
+twine==1.9.1

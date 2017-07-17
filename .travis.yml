@@ -6,7 +6,7 @@ python:
   - '2.7'
 
 services:
-  - postgresql: "9.5"
+  - postgresql: '9.5'
   - redis-server
   - docker
 
@@ -31,7 +31,3 @@ before_script:
 
 script:
   - odooku runtests --db-name test
-    --module test_assetsbundle
-    --module l10n_generic_coa
-    --module account
-    --module sale
