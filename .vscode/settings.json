@@ -11,5 +11,6 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true
-    }
+    },
+    "python.linting.pylintEnabled": false
 }

@@ -105,4 +105,8 @@ class IrQWeb(models.AbstractModel):
         # hackish !!
         if CDN_ENABLED and s3_backend and not options.get('commit_assetsbundle'):
             values = dict(values or {}, url_for=self._cdn_url)
-        return super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+        html = super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+        # This fixes web editor widgets using cssRules
+        # TODO Make this configurable
+        html = html.replace('<link', '<link crossorigin="anonymous"')
+        return html
