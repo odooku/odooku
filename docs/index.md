@@ -15,7 +15,7 @@ Wrapper package around Odoo that patches and extends Odoo to work in a service o
 
 ### odooku-odoo
 
-Pypi packaged Odoo for easy install.
+Pypi packaged Odoo providing an easy and reliable install method for Odoo.
 
 ### odooku-data
 

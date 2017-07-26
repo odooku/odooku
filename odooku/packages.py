@@ -11,7 +11,7 @@ def init_packages():
         try:
             module = importlib.import_module(module_name)
         except ImportError:
-            # For now be explit..
+            # For now be explicit..
             raise
 
         # Look for addons folder in module package

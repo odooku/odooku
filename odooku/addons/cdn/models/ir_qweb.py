@@ -99,10 +99,10 @@ class IrQWeb(models.AbstractModel):
         return super(IrQWeb, self)._is_static_node(el) and \
                 (not cdn_att or not el.get(cdn_att))
 
-    def _get_asset(self, xmlid, options, values=None, **kwargs):
+    def _get_asset(self, xmlid, options, css=True, js=True, debug=False, async=False, values=None):
         # Commit_assetsbundle is assigned when rendering a pdf.
         # We use it to distinguish between web and pdf report asset url's.
         # hackish !!
         if CDN_ENABLED and s3_backend and not options.get('commit_assetsbundle'):
-            values = dict(values, url_for=self._cdn_url)
-        return super(IrQWeb, self)._get_asset(xmlid, options, values=values, **kwargs)
+            values = dict(values or {}, url_for=self._cdn_url)
+        return super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
