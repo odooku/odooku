@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/odooku/odooku.svg?branch=10.0)](https://travis-ci.org/odooku/odooku)
+[![Build Status](https://travis-ci.org/odooku/odooku-odoo.svg?branch=10.0)](https://travis-ci.org/odooku/odooku-odoo)
+[![Build Status](https://travis-ci.org/odooku/odooku-heroku-buildpack.svg?branch=10.0)](https://travis-ci.org/odooku/odooku-heroku-buildpack)
+
 # Odooku
 
 Odooku provides a great way to run Odoo as a service,
