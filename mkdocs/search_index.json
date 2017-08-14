@@ -1,0 +1,264 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Odooku provides a great way to run Odoo as a service,\ndeploy your codebase, migrate your data and more.\n\n\nGuides\n#\n\n\n\n\nHeroku deployment\n\n\nManual installation\n\n\nLocal development\n\n\n\n\nPython packages\n#\n\n\nodooku\n#\n\n\nWrapper package around Odoo that patches and extends Odoo to work in a service oriented environment.\n\n\n\n\nStrips out threading in favor of Gevent\n\n\nSingle process wsgi server and/or cron runner\n\n\nS3 based filestore\n\n\nRedis sessions for multi server deployments\n\n\nWebsockets for persistent connections and awesome performance\n\n\nComprehensive suite of management commands\n\n\nCDN support, serve all static files directly through S3\n\n\nPackaged addons\n\n\n\n\nView Github\n\n\nodooku-odoo\n#\n\n\nPypi packaged Odoo providing an easy and reliable install method for Odoo.\n\n\nView Github\n\n\nodooku-data\n#\n\n\nData serialization and deserialization library for migrations (docs comming soon).\n\n\nView Github\n\n\nHeroku deployment\n#\n\n\nodooku-heroku-buildpack\n#\n\n\nHeroku buildpack for Odooku.\n\n\nView Github\n\n\nodooku-heroku-starter\n#\n\n\nTemplate project for Heroku.\n\n\nView Github\n\n\nSnap deployment\n#\n\n\nodooku-snap\n#\n\n\nView Github", 
+            "title": "Project overview"
+        }, 
+        {
+            "location": "/#guides", 
+            "text": "Heroku deployment  Manual installation  Local development", 
+            "title": "Guides"
+        }, 
+        {
+            "location": "/#python-packages", 
+            "text": "", 
+            "title": "Python packages"
+        }, 
+        {
+            "location": "/#odooku", 
+            "text": "Wrapper package around Odoo that patches and extends Odoo to work in a service oriented environment.   Strips out threading in favor of Gevent  Single process wsgi server and/or cron runner  S3 based filestore  Redis sessions for multi server deployments  Websockets for persistent connections and awesome performance  Comprehensive suite of management commands  CDN support, serve all static files directly through S3  Packaged addons   View Github", 
+            "title": "odooku"
+        }, 
+        {
+            "location": "/#odooku-odoo", 
+            "text": "Pypi packaged Odoo providing an easy and reliable install method for Odoo.  View Github", 
+            "title": "odooku-odoo"
+        }, 
+        {
+            "location": "/#odooku-data", 
+            "text": "Data serialization and deserialization library for migrations (docs comming soon).  View Github", 
+            "title": "odooku-data"
+        }, 
+        {
+            "location": "/#heroku-deployment", 
+            "text": "", 
+            "title": "Heroku deployment"
+        }, 
+        {
+            "location": "/#odooku-heroku-buildpack", 
+            "text": "Heroku buildpack for Odooku.  View Github", 
+            "title": "odooku-heroku-buildpack"
+        }, 
+        {
+            "location": "/#odooku-heroku-starter", 
+            "text": "Template project for Heroku.  View Github", 
+            "title": "odooku-heroku-starter"
+        }, 
+        {
+            "location": "/#snap-deployment", 
+            "text": "", 
+            "title": "Snap deployment"
+        }, 
+        {
+            "location": "/#odooku-snap", 
+            "text": "View Github", 
+            "title": "odooku-snap"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/", 
+            "text": "Note\n\n\nThis guide assumes you have basic knowledge of the Heroku platform.\n\n\n\n\nSetup your project\n#\n\n\nrequirements.txt\n#\n\n\nodooku-odoo-addons\n=10.0.0,\n11.0.0\nodooku\n=10.0.0,\n11.0.0\n\n\n\n\n\nProcfile\n#\n\n\nweb\n:\n \nodooku\n \n--\ndatabase\n-\nmaxconn\n \n20\n \n--\nredis\n-\nmaxconn\n \n10\n \nwsgi\n \n$PORT\n \n--\ncron\n \n--\nproxy\n-\nmode\n\n\n\n\n\n\n\n\nWarning\n\n\nThis procfile is optimized to work with Heroku's Postgres \nhobby-basic\n plan\nand the Redis \nhobby-dev\n plan. Choose your own plans and configure accordingly.\n\n\n\n\n\n\nTip\n\n\nWhen scaling to \nN\n dyno's, divide the maxconn values by factor \nN\n.\n\n\n\n\nCreate the app\n#\n\n\nDeploying Odooku requires a custom buildpack. Create your Heroku app like so:\n\n\nheroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git\n\n\n\n\n\nSetup backing services\n#\n\n\n\n\nNote\n\n\nIf you are not familiar with S3 buckets, see:\n\nGetting Started with Amazon Simple Storage Service\n\n\n\n\n\n\nWarning\n\n\nTo lower costs and increase performance ensure that your bucket is located in the same\nregion as your Heroku application region.\n\n\n\n\nS3\n#\n\n\nheroku config:set \nAWS_ACCESS_KEY_ID\n=\nyour_aws_key\n\nheroku config:set \nAWS_SECRET_ACCESS_KEY\n=\nyour_aws_secret\n\nheroku config:set \nAWS_REGION\n=\nyour_aws_region\n\nheroku config:set \nS3_BUCKET\n=\nyour_s3_bucket_name\n\n\n\n\n\n\nPostgresql\n#\n\n\nheroku addons:create heroku-postgresql:hobby-basic\n\n\n\n\n\nRedis\n#\n\n\nheroku addons:create heroku-redis:hobby-dev\n\n\n\n\n\nDeploy\n#\n\n\ngit push heroku master", 
+            "title": "Heroku deployment"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#setup-your-project", 
+            "text": "", 
+            "title": "Setup your project"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#requirementstxt", 
+            "text": "odooku-odoo-addons =10.0.0, 11.0.0\nodooku =10.0.0, 11.0.0", 
+            "title": "requirements.txt"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#procfile", 
+            "text": "web :   odooku   -- database - maxconn   20   -- redis - maxconn   10   wsgi   $PORT   -- cron   -- proxy - mode    Warning  This procfile is optimized to work with Heroku's Postgres  hobby-basic  plan\nand the Redis  hobby-dev  plan. Choose your own plans and configure accordingly.    Tip  When scaling to  N  dyno's, divide the maxconn values by factor  N .", 
+            "title": "Procfile"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#create-the-app", 
+            "text": "Deploying Odooku requires a custom buildpack. Create your Heroku app like so:  heroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git", 
+            "title": "Create the app"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#setup-backing-services", 
+            "text": "Note  If you are not familiar with S3 buckets, see: Getting Started with Amazon Simple Storage Service    Warning  To lower costs and increase performance ensure that your bucket is located in the same\nregion as your Heroku application region.", 
+            "title": "Setup backing services"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#s3", 
+            "text": "heroku config:set  AWS_ACCESS_KEY_ID = your_aws_key \nheroku config:set  AWS_SECRET_ACCESS_KEY = your_aws_secret \nheroku config:set  AWS_REGION = your_aws_region \nheroku config:set  S3_BUCKET = your_s3_bucket_name", 
+            "title": "S3"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#postgresql", 
+            "text": "heroku addons:create heroku-postgresql:hobby-basic", 
+            "title": "Postgresql"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#redis", 
+            "text": "heroku addons:create heroku-redis:hobby-dev", 
+            "title": "Redis"
+        }, 
+        {
+            "location": "/guides/heroku-deployment/#deploy", 
+            "text": "git push heroku master", 
+            "title": "Deploy"
+        }, 
+        {
+            "location": "/guides/manual-installation/", 
+            "text": "Python installation\n#\n\n\nPerform a platform indepent installation using PyPI.\n\n\n\n\nNote\n\n\nEnsure build requirements are met, see below.\n\n\n\n\n\n\nWarning\n\n\nAt runtime Odoo will always require the \nLESSC\n compiler, \nand most likely \nWKHTMLTOPDF\n. Odooku's deployment methods\ntake care of this, however for any other installation method\nyou should install this yourself.\n\n\n\n\npip install odooku-odoo-addons\npip install odooku\n\n\n\n\n\nThis will install the full Odoo suite. If you want to keep installation and dependency size to a minimal,\nfeel free to install the seperate packages like so:\n\n\npip install odooku-odoo-\n[\napp\n]\n\n\n\n\n\n\nAvailable options are:\n\n\n\n\naccount\n\n\naccount_accountant\n\n\nboard\n\n\ncalendar\n\n\ncontacts\n\n\ncrm\n\n\nextra:\n This package provides point of sale hardware modules and a few test modules.\n\n\nfleet \n\n\nhr \n\n\nhr_attendance \n\n\nhr_expense\n\n\nhr_holidays\n\n\nhr_recruitment\n\n\nhr_timesheet\n\n\nim_livechat\n\n\nl10n_fr_certification\n\n\nlunch\n\n\nmail\n\n\nmaintenance\n\n\nmass_mailing\n\n\nmrp\n\n\nmrp_repair\n\n\nnote\n\n\npoint_of_sale\n\n\nproject\n\n\nproject_issue\n\n\npurchase\n\n\nsale\n\n\nstock\n\n\nsurvey\n\n\nwebsite\n\n\nwebsite_blog\n\n\nwebsite_event\n\n\nwebsite_forum\n\n\nwebsite_sale\n\n\nwebsite_slides\n\n\n\n\nBuild requirements\n#\n\n\nUbuntu 16.04\n#\n\n\nsudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libssl-dev\n\n\n\n\n\nOSX\n#\n\n\nbrew install postgresql", 
+            "title": "Manual installation"
+        }, 
+        {
+            "location": "/guides/manual-installation/#python-installation", 
+            "text": "Perform a platform indepent installation using PyPI.   Note  Ensure build requirements are met, see below.    Warning  At runtime Odoo will always require the  LESSC  compiler, \nand most likely  WKHTMLTOPDF . Odooku's deployment methods\ntake care of this, however for any other installation method\nyou should install this yourself.   pip install odooku-odoo-addons\npip install odooku  This will install the full Odoo suite. If you want to keep installation and dependency size to a minimal,\nfeel free to install the seperate packages like so:  pip install odooku-odoo- [ app ]   Available options are:   account  account_accountant  board  calendar  contacts  crm  extra:  This package provides point of sale hardware modules and a few test modules.  fleet   hr   hr_attendance   hr_expense  hr_holidays  hr_recruitment  hr_timesheet  im_livechat  l10n_fr_certification  lunch  mail  maintenance  mass_mailing  mrp  mrp_repair  note  point_of_sale  project  project_issue  purchase  sale  stock  survey  website  website_blog  website_event  website_forum  website_sale  website_slides", 
+            "title": "Python installation"
+        }, 
+        {
+            "location": "/guides/manual-installation/#build-requirements", 
+            "text": "", 
+            "title": "Build requirements"
+        }, 
+        {
+            "location": "/guides/manual-installation/#ubuntu-1604", 
+            "text": "sudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libssl-dev", 
+            "title": "Ubuntu 16.04"
+        }, 
+        {
+            "location": "/guides/manual-installation/#osx", 
+            "text": "brew install postgresql", 
+            "title": "OSX"
+        }, 
+        {
+            "location": "/guides/local-development/", 
+            "text": "About this guide\n#\n\n\nThis guide is intended for setting up a local development\nenvironment for Odoo. It consists out of 4 parts:\n\n\n\n\nPython installation\n\n\nLESSC \n WKHTMLTOPDF\n\n\nRunning docker services\n\n\nEnvironment configuration\n\n\nRunning\n\n\n\n\nPython installation\n#\n\n\nFollow \nManual installation\n guide.\n\n\nLESSC \n WKHTMLTOPDF\n#\n\n\nTodo\n\n\nRunning docker services\n#\n\n\ndocker run --name postgres -p \n5432\n:5432 -e \nPOSTGRES_PASSWORD\n=\nodoo -e \nPOSTGRES_USER\n=\nodoo -d postgres:9.5\ndocker run --name redis -p \n6379\n:6379 -d redis:latest\ndocker run --name s3 -p \n4569\n:4569 -d lphoward/fake-s3:latest -r /fakes3_root -p \n4569\n -H localhost\n\n\n\n\n\nEnvironment configuration\n#\n\n\nexport\n \nDATABASE_URL\n=\npostgres://odoo:odoo@localhost:5432\n\nexport\n \nREDIS_URL\n=\nredis://localhost:6379\n\nexport\n \nS3_BUCKET\n=\nodooku\n\nexport\n \nS3_ENDPOINT_URL\n=\nhttp://localhost:4569\n\nexport\n \nS3_CUSTOM_DOMAIN\n=\nhttp://odooku.localhost:4569\n\nexport\n \nAWS_ACCESS_KEY_ID\n=\nfoobar\n\nexport\n \nAWS_SECRET_ACCESS_KEY\n=\nfoobar\n\nexport\n \nODOOKU_ADMIN_PASSWORD\n=\nfoobar\n\n\n\n\n\n\n\nTip\n\n\nPut this in an .env file and source it.\n\n\n\n\nOSX\n#\n\n\nThis should only be required on OSX.\n\n\nexport\n \nLC_ALL\n=\nen_US.UTF-8\n\nexport\n \nLANG\n=\nen_US.UTF-8\n\n\n\n\n\nRunning\n#\n\n\nodooku \nyour command\n\n\n\n\n\n\nRun development server\n#\n\n\nodooku wsgi \n8000\n --dev", 
+            "title": "Local development"
+        }, 
+        {
+            "location": "/guides/local-development/#about-this-guide", 
+            "text": "This guide is intended for setting up a local development\nenvironment for Odoo. It consists out of 4 parts:   Python installation  LESSC   WKHTMLTOPDF  Running docker services  Environment configuration  Running", 
+            "title": "About this guide"
+        }, 
+        {
+            "location": "/guides/local-development/#python-installation", 
+            "text": "Follow  Manual installation  guide.", 
+            "title": "Python installation"
+        }, 
+        {
+            "location": "/guides/local-development/#lessc-wkhtmltopdf", 
+            "text": "Todo", 
+            "title": "LESSC &amp; WKHTMLTOPDF"
+        }, 
+        {
+            "location": "/guides/local-development/#running-docker-services", 
+            "text": "docker run --name postgres -p  5432 :5432 -e  POSTGRES_PASSWORD = odoo -e  POSTGRES_USER = odoo -d postgres:9.5\ndocker run --name redis -p  6379 :6379 -d redis:latest\ndocker run --name s3 -p  4569 :4569 -d lphoward/fake-s3:latest -r /fakes3_root -p  4569  -H localhost", 
+            "title": "Running docker services"
+        }, 
+        {
+            "location": "/guides/local-development/#environment-configuration", 
+            "text": "export   DATABASE_URL = postgres://odoo:odoo@localhost:5432 export   REDIS_URL = redis://localhost:6379 export   S3_BUCKET = odooku export   S3_ENDPOINT_URL = http://localhost:4569 export   S3_CUSTOM_DOMAIN = http://odooku.localhost:4569 export   AWS_ACCESS_KEY_ID = foobar export   AWS_SECRET_ACCESS_KEY = foobar export   ODOOKU_ADMIN_PASSWORD = foobar   Tip  Put this in an .env file and source it.", 
+            "title": "Environment configuration"
+        }, 
+        {
+            "location": "/guides/local-development/#osx", 
+            "text": "This should only be required on OSX.  export   LC_ALL = en_US.UTF-8 export   LANG = en_US.UTF-8", 
+            "title": "OSX"
+        }, 
+        {
+            "location": "/guides/local-development/#running", 
+            "text": "odooku  your command", 
+            "title": "Running"
+        }, 
+        {
+            "location": "/guides/local-development/#run-development-server", 
+            "text": "odooku wsgi  8000  --dev", 
+            "title": "Run development server"
+        }, 
+        {
+            "location": "/topics/s3/", 
+            "text": "The Odoo filestore is mirrored in a S3 bucket. Enabling Odooku to use S3\nrequires that the Dyno's have access to the AWS credentials as well as the\nname of the bucket to store files.\n\n\nOdooku exposes 3 environment variables that need to be configured:\n\n\n$ heroku config:set \nAWS_ACCESS_KEY_ID\n=\nyour_aws_key\n\n$ heroku config:set \nAWS_SECRET_ACCESS_KEY\n=\nyour_aws_secret\n\n$ heroku config:set \nAWS_REGION\n=\nyour_aws_region\n\n$ heroku config:set \nS3_BUCKET\n=\nyour_s3_bucket_name\n\n\n\n\n\n\nYour S3 credentials can be found on the Security Credentials section of the\nAWS \u201cMy Account/Console\u201d menu.", 
+            "title": "S3 Storage"
+        }, 
+        {
+            "location": "/topics/s3/", 
+            "text": "The Odoo filestore is mirrored in a S3 bucket. Enabling Odooku to use S3\nrequires that the Dyno's have access to the AWS credentials as well as the\nname of the bucket to store files.\n\n\nOdooku exposes 3 environment variables that need to be configured:\n\n\n$ heroku config:set \nAWS_ACCESS_KEY_ID\n=\nyour_aws_key\n\n$ heroku config:set \nAWS_SECRET_ACCESS_KEY\n=\nyour_aws_secret\n\n$ heroku config:set \nAWS_REGION\n=\nyour_aws_region\n\n$ heroku config:set \nS3_BUCKET\n=\nyour_s3_bucket_name\n\n\n\n\n\n\nYour S3 credentials can be found on the Security Credentials section of the\nAWS \u201cMy Account/Console\u201d menu.", 
+            "title": "SSL"
+        }, 
+        {
+            "location": "/topics/websockets/", 
+            "text": "", 
+            "title": "Redirection"
+        }, 
+        {
+            "location": "/topics/scaling/", 
+            "text": "Redis is only required if you're running multiple web dyno's. Odooku needs a way\nto maintain session data between all dyno's.\n\n\n$ heroku addons:create heroku-redis:hobby-dev", 
+            "title": "Scaling"
+        }, 
+        {
+            "location": "/topics/databases/", 
+            "text": "Preloading a database\n#\n\n\nWhen running against a new database, it's recommended to preload the database\nusign the 'odooku preload' command. Database initialization using a web worker\nis possible however.\n\n\n$ odooku database preload \n[\n--demo-data\n]\n\n\n\n\n\n\nBackup and Restore\n#\n\n\n$ odooku database dump --s3-file dump.zip\n$ odooku database dump \n file.zip\n$ odooku database restore --s3-file dump.zip\n$ dooku database restore \n file.zip", 
+            "title": "Databases"
+        }, 
+        {
+            "location": "/topics/databases/#preloading-a-database", 
+            "text": "When running against a new database, it's recommended to preload the database\nusign the 'odooku preload' command. Database initialization using a web worker\nis possible however.  $ odooku database preload  [ --demo-data ]", 
+            "title": "Preloading a database"
+        }, 
+        {
+            "location": "/topics/databases/#backup-and-restore", 
+            "text": "$ odooku database dump --s3-file dump.zip\n$ odooku database dump   file.zip\n$ odooku database restore --s3-file dump.zip\n$ dooku database restore   file.zip", 
+            "title": "Backup and Restore"
+        }, 
+        {
+            "location": "/topics/security/", 
+            "text": "Admin password\n#\n\n\nOdooku disables the default admin password configuration entry used by Odoo.\n\n\n$ heroku config:set \nODOOKU_ADMIN_PASSWORD\n=\nyour_password", 
+            "title": "Security"
+        }, 
+        {
+            "location": "/topics/security/#admin-password", 
+            "text": "Odooku disables the default admin password configuration entry used by Odoo.  $ heroku config:set  ODOOKU_ADMIN_PASSWORD = your_password", 
+            "title": "Admin password"
+        }, 
+        {
+            "location": "/topics/cron/", 
+            "text": "CRON jobs can be run in 3 differents ways:\n\n\nAlong side the web process\n#\n\n\nThis runs a somewhat slower polling cron worker. Ideal for most setups.\n\n\n$ odooku wsgi --cron\n\n\n\n\n\nDedicated worker process\n#\n\n\nThis should be used for installations with long running cron jobs\n(like mass mailing).\n\n\n$ odooku cron\n\n\n\n\n\nScheduled process\n#\n\n\nYou can also make use of Heroku's scheduler, run Odooku as follows:\n\n\n$ odooku cron --once", 
+            "title": "Cron jobs"
+        }, 
+        {
+            "location": "/topics/cron/#along-side-the-web-process", 
+            "text": "This runs a somewhat slower polling cron worker. Ideal for most setups.  $ odooku wsgi --cron", 
+            "title": "Along side the web process"
+        }, 
+        {
+            "location": "/topics/cron/#dedicated-worker-process", 
+            "text": "This should be used for installations with long running cron jobs\n(like mass mailing).  $ odooku cron", 
+            "title": "Dedicated worker process"
+        }, 
+        {
+            "location": "/topics/cron/#scheduled-process", 
+            "text": "You can also make use of Heroku's scheduler, run Odooku as follows:  $ odooku cron --once", 
+            "title": "Scheduled process"
+        }, 
+        {
+            "location": "/topics/websockets/", 
+            "text": "", 
+            "title": "Websockets"
+        }, 
+        {
+            "location": "/commands/wsgi/", 
+            "text": "Runs the Odooku wsgi server.\n\n\nodooku wsgi PORT\n\n\n\n\n\nOptions\n#\n\n\n--cron\n#", 
+            "title": "wsgi"
+        }, 
+        {
+            "location": "/commands/wsgi/#options", 
+            "text": "", 
+            "title": "Options"
+        }, 
+        {
+            "location": "/commands/wsgi/#-cron", 
+            "text": "", 
+            "title": "--cron"
+        }
+    ]
+}
