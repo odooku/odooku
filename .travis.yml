@@ -21,9 +21,12 @@ env:
     - AWS_SECRET_ACCESS_KEY=foobar
 
 install:
-  - sudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev libssl-dev nodejs npm
+  - sudo apt-get install libpq-dev libxml2-dev libxslt1-dev libldap2-dev libsasl2-dev
+    libssl-dev nodejs npm pandoc
   - pip install -r requirements.travis.txt
-  - pip install .
+  - pip install -r requirements.dev.txt
+  - python setup.py bdist_wheel
+  - pip install --find-links file://$(pwd)/dist odooku
   - sudo npm install -g less
 
 before_script:
@@ -31,3 +34,11 @@ before_script:
 
 script:
   - odooku runtests --db-name test
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script:
+    - twine upload dist/*
+  on:
+    tags: true

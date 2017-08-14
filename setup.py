@@ -1,5 +1,11 @@
 from setuptools import setup, find_packages
 
+try:
+    import pypandoc
+    long_description = pypandoc.convert('README.md', 'rst')
+except(IOError, ImportError):
+    long_description = open('README.md').read()
+
 setup(
     name='odooku',
     version='10.0.0',
@@ -7,8 +13,14 @@ setup(
     author='Raymond Reggers - Adaptiv Design',
     author_email='raymond@adaptiv.nl',
     description=('Odooku'),
+    long_description=long_description,
     license='Apache Software License',
     packages=find_packages(),
+    namespace_packages=[
+        'odooku_addons',
+        'odooku_commands',
+        'odooku_patches'
+    ],
     include_package_data=True,
     zip_safe=False,
     install_requires=[
@@ -22,7 +34,7 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        odooku=odooku.cli:entrypoint
+        odooku=odooku.cli.main:entrypoint
     ''',
     classifiers=[
         'Intended Audience :: Developers',

@@ -1,14 +1,13 @@
 import click
 import os.path
 import odooku
+import odooku_addons
 
 from odooku.params import params
 from odooku.helpers.split import split
 
 
-DEFAULT_ADDONS = [
-    os.path.join(os.path.dirname(odooku.__file__), 'addons')
-]
+ADDONS_PATH = os.path.abspath('addons')
 
 
 def resolve_comma_seperated(ctx, param, value):
@@ -16,8 +15,15 @@ def resolve_comma_seperated(ctx, param, value):
 
 
 def resolve_addons(ctx, param, value):
-    addons = list(set(split(value, ',')) | set(DEFAULT_ADDONS) | set(params.addon_paths))
-    return ','.join(addons)
+    paths = [
+        os.path.abspath(path)
+        for path in set(split(value, ',')) | set(odooku_addons.__path__)
+    ]
+
+    if os.path.exists(ADDONS_PATH) and ADDONS_PATH not in paths:
+        paths.append(ADDONS_PATH)
+
+    return ','.join(paths)
 
 
 def resolve_db_name(ctx, param, value, exists=True):

@@ -1,2 +1,2 @@
-git+https://github.com/odooku/odooku-odoo
+odooku-odoo-addons>=10.0.0,<11.0.0
 twine==1.9.1
