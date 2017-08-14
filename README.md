@@ -1,60 +1,54 @@
-## Development instructions
+# Odooku
 
+Odooku provides a great way to run Odoo as a service,
+deploy your codebase, migrate your data and more.
+[View documentation](https://odooku.github.io/odooku/)
 
-### Run against local services
+## Python packages
 
-```
-$ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=odoo -e POSTGRES_USER=odoo -d postgres:9.5
-$ docker run --name redis -p 6379:6379 -d redis:latest
-$ docker run --name s3 -p 4569:4569 -d lphoward/fake-s3:latest -r /fakes3_root -p 4569 -H localhost
-```
+### odooku
 
-### Install LESSC
+Wrapper package around Odoo that patches and extends Odoo to work in a service oriented environment.
 
-```
-$ npm install -g less
-```
+- Strips out threading in favor of Gevent
+- Single process wsgi server and/or cron runner
+- S3 based filestore
+- Redis sessions for multi server deployments
+- Websockets for persistent connections and awesome performance
+- Comprehensive suite of management commands
+- CDN support, serve all static files directly through S3
+- Packaged addons
 
-### Environment variables
+[View Github](https://github.com/odooku/odooku)
 
-Put these in an .env file
+### odooku-odoo
 
-```
-export DATABASE_URL=postgres://odoo:odoo@localhost:5432
-export REDIS_URL=redis://localhost:6379
-export S3_BUCKET=odooku
-export S3_ENDPOINT_URL=http://localhost:4569
-export S3_CUSTOM_DOMAIN=http://odooku.localhost:4569
-export AWS_ACCESS_KEY_ID=foobar
-export AWS_SECRET_ACCESS_KEY=foobar
-export ODOOKU_ADMIN_PASSWORD=foobar
-```
+Pypi packaged Odoo providing an easy and reliable install method for Odoo.
 
-#### OSX
+[View Github](https://github.com/odooku/odooku-odoo)
 
-```
-export LC_ALL=en_US.UTF-8
-export LANG=en_US.UTF-8
-```
+### odooku-data
 
-#### Visual Studio Code debugging
+Data serialization and deserialization library for migrations (docs comming soon).
 
-```
-export ODOOKU_PTVSD_URL=ptvsd://:keyboardcat@localhost:3000
-```
+[View Github](https://github.com/odooku/odooku-data)
 
+## Heroku deployment
 
-## Test instructions
+### odooku-heroku-buildpack
 
+Heroku buildpack for Odooku.
 
-### Install phantomjs
+[View Github](https://github.com/odooku/odooku-heroku-buildpack)
 
-```
-npm install -g phantomjs-prebuilt
-```
+### odooku-heroku-starter
 
-### Run the tests
+Template project for Heroku.
 
-```
-odooku runtests --db-name test
-```
+[View Github](https://github.com/odooku/odooku-heroku-starter)
+
+## Snap deployment
+
+### odooku-snap
+
+[View Github](https://github.com/odooku/odooku-snap)

@@ -1,13 +1,13 @@
 site_name: Odooku
 site_description: Run Odoo on Heroku (more platforms coming)
 site_author: Raymond Reggers
-site_url: http://adaptivdesign.github.io/odooku/
+site_url: http://odooku.github.io/odooku/
 copyright: Copyright (c) 2017 Raymond Reggers
 
 theme: 'material'
 
 repo_name: 'GitHub'
-repo_url: 'https://github.com/adaptivdesign/odooku'
+repo_url: 'https://github.com/odooku/odooku'
 
 # Theme customization
 extra:
@@ -30,10 +30,11 @@ markdown_extensions:
 
 # Page tree
 pages:
-  - Odooku: index.md
-  - Getting started: getting-started.md
-  - Commands:
-    - wsgi: commands/wsgi.md
+  - Project overview: index.md
+  - Guides:
+    - Heroku deployment: guides/heroku-deployment.md
+    - Manual installation: guides/manual-installation.md
+    - Local development: guides/local-development.md
   - Topics:
     - S3 Storage: topics/s3.md
     - SSL: topics/s3.md
@@ -43,4 +44,5 @@ pages:
     - Security: topics/security.md
     - Cron jobs: topics/cron.md
     - Websockets: topics/websockets.md
-    - New Relic: topics/new-relic.md
+  - Commands:
+    - wsgi: commands/wsgi.md
