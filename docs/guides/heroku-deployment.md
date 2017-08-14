@@ -27,7 +27,7 @@ web: odooku --database-maxconn 20 --redis-maxconn 10 wsgi $PORT --cron --proxy-m
 Deploying Odooku requires a custom buildpack. Create your Heroku app like so:
 
 ``` bash
-heroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git
+heroku create --buildpack https://github.com/odooku/odooku-buildpack.git#10.0
 ```
 
 ## Setup backing services
@@ -61,9 +61,9 @@ heroku addons:create heroku-postgresql:hobby-basic
 heroku addons:create heroku-redis:hobby-dev
 ```
 
-
 ## Deploy
 
 ``` bash
 git push heroku master
+heroku run odooku database preload
 ```
