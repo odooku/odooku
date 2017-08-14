@@ -57,7 +57,7 @@
         }, 
         {
             "location": "/guides/heroku-deployment/", 
-            "text": "Note\n\n\nThis guide assumes you have basic knowledge of the Heroku platform.\n\n\n\n\nSetup your project\n#\n\n\nrequirements.txt\n#\n\n\nodooku-odoo-addons\n=10.0.0,\n11.0.0\nodooku\n=10.0.0,\n11.0.0\n\n\n\n\n\nProcfile\n#\n\n\nweb\n:\n \nodooku\n \n--\ndatabase\n-\nmaxconn\n \n20\n \n--\nredis\n-\nmaxconn\n \n10\n \nwsgi\n \n$PORT\n \n--\ncron\n \n--\nproxy\n-\nmode\n\n\n\n\n\n\n\n\nWarning\n\n\nThis procfile is optimized to work with Heroku's Postgres \nhobby-basic\n plan\nand the Redis \nhobby-dev\n plan. Choose your own plans and configure accordingly.\n\n\n\n\n\n\nTip\n\n\nWhen scaling to \nN\n dyno's, divide the maxconn values by factor \nN\n.\n\n\n\n\nCreate the app\n#\n\n\nDeploying Odooku requires a custom buildpack. Create your Heroku app like so:\n\n\nheroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git\n\n\n\n\n\nSetup backing services\n#\n\n\n\n\nNote\n\n\nIf you are not familiar with S3 buckets, see:\n\nGetting Started with Amazon Simple Storage Service\n\n\n\n\n\n\nWarning\n\n\nTo lower costs and increase performance ensure that your bucket is located in the same\nregion as your Heroku application region.\n\n\n\n\nS3\n#\n\n\nheroku config:set \nAWS_ACCESS_KEY_ID\n=\nyour_aws_key\n\nheroku config:set \nAWS_SECRET_ACCESS_KEY\n=\nyour_aws_secret\n\nheroku config:set \nAWS_REGION\n=\nyour_aws_region\n\nheroku config:set \nS3_BUCKET\n=\nyour_s3_bucket_name\n\n\n\n\n\n\nPostgresql\n#\n\n\nheroku addons:create heroku-postgresql:hobby-basic\n\n\n\n\n\nRedis\n#\n\n\nheroku addons:create heroku-redis:hobby-dev\n\n\n\n\n\nDeploy\n#\n\n\ngit push heroku master", 
+            "text": "Note\n\n\nThis guide assumes you have basic knowledge of the Heroku platform.\n\n\n\n\nSetup your project\n#\n\n\nrequirements.txt\n#\n\n\nodooku-odoo-addons\n=10.0.0,\n11.0.0\nodooku\n=10.0.0,\n11.0.0\n\n\n\n\n\nProcfile\n#\n\n\nweb\n:\n \nodooku\n \n--\ndatabase\n-\nmaxconn\n \n20\n \n--\nredis\n-\nmaxconn\n \n10\n \nwsgi\n \n$PORT\n \n--\ncron\n \n--\nproxy\n-\nmode\n\n\n\n\n\n\n\n\nWarning\n\n\nThis procfile is optimized to work with Heroku's Postgres \nhobby-basic\n plan\nand the Redis \nhobby-dev\n plan. Choose your own plans and configure accordingly.\n\n\n\n\n\n\nTip\n\n\nWhen scaling to \nN\n dyno's, divide the maxconn values by factor \nN\n.\n\n\n\n\nCreate the app\n#\n\n\nDeploying Odooku requires a custom buildpack. Create your Heroku app like so:\n\n\nheroku create --buildpack https://github.com/odooku/odooku-buildpack.git#10.0\n\n\n\n\n\nSetup backing services\n#\n\n\n\n\nNote\n\n\nIf you are not familiar with S3 buckets, see:\n\nGetting Started with Amazon Simple Storage Service\n\n\n\n\n\n\nWarning\n\n\nTo lower costs and increase performance ensure that your bucket is located in the same\nregion as your Heroku application region.\n\n\n\n\nS3\n#\n\n\nheroku config:set \nAWS_ACCESS_KEY_ID\n=\nyour_aws_key\n\nheroku config:set \nAWS_SECRET_ACCESS_KEY\n=\nyour_aws_secret\n\nheroku config:set \nAWS_REGION\n=\nyour_aws_region\n\nheroku config:set \nS3_BUCKET\n=\nyour_s3_bucket_name\n\n\n\n\n\n\nPostgresql\n#\n\n\nheroku addons:create heroku-postgresql:hobby-basic\n\n\n\n\n\nRedis\n#\n\n\nheroku addons:create heroku-redis:hobby-dev\n\n\n\n\n\nDeploy\n#\n\n\ngit push heroku master\nheroku run odooku database preload", 
             "title": "Heroku deployment"
         }, 
         {
@@ -77,7 +77,7 @@
         }, 
         {
             "location": "/guides/heroku-deployment/#create-the-app", 
-            "text": "Deploying Odooku requires a custom buildpack. Create your Heroku app like so:  heroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git", 
+            "text": "Deploying Odooku requires a custom buildpack. Create your Heroku app like so:  heroku create --buildpack https://github.com/odooku/odooku-buildpack.git#10.0", 
             "title": "Create the app"
         }, 
         {
@@ -102,7 +102,7 @@
         }, 
         {
             "location": "/guides/heroku-deployment/#deploy", 
-            "text": "git push heroku master", 
+            "text": "git push heroku master\nheroku run odooku database preload", 
             "title": "Deploy"
         }, 
         {

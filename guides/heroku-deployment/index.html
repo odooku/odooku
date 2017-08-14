@@ -656,7 +656,7 @@ and the Redis <strong>hobby-dev</strong> plan. Choose your own plans and configu
 </div>
 <h2 id="create-the-app">Create the app<a class="headerlink" href="#create-the-app" title="Permanent link">#</a></h2>
 <p>Deploying Odooku requires a custom buildpack. Create your Heroku app like so:</p>
-<div class="codehilite"><pre><span></span>heroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git
+<div class="codehilite"><pre><span></span>heroku create --buildpack https://github.com/odooku/odooku-buildpack.git#10.0
 </pre></div>
 
 
@@ -691,6 +691,7 @@ heroku config:set <span class="nv">S3_BUCKET</span><span class="o">=</span>&lt;y
 
 <h2 id="deploy">Deploy<a class="headerlink" href="#deploy" title="Permanent link">#</a></h2>
 <div class="codehilite"><pre><span></span>git push heroku master
+heroku run odooku database preload
 </pre></div>
                 
                   
