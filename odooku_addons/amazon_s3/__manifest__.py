@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
-  'name': 'Amazon S3',
-  'description': 'Amazon S3 integration for Odooku',
+  'name': 'Odooku Amazon S3',
+  'description': 'Amazon S3 integration for Odoo',
   'version': '0.1',
   'category': 'Hidden',
   'author': 'Raymond Reggers',

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
-  'name': 'CDN',
-  'description': 'Content Delivery for Odooku',
+  'name': 'Odooku CDN',
+  'description': 'Content Delivery for Odoo',
   'version': '0.1',
   'category': 'Hidden',
   'author': 'Raymond Reggers',

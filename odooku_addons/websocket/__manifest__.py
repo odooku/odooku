@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 {
-  'name': 'Websocket',
-  'description': 'Websocket support for Odooku',
+  'name': 'Odooku Websocket',
+  'description': 'Websocket support for Odoo',
   'version': '0.1',
   'category': 'Hidden',
   'author': 'Raymond Reggers',
