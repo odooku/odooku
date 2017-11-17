@@ -6,11 +6,8 @@ class patch_http_request(SoftPatch):
     @staticmethod
     def apply_patch():
 
-        from odooku.patch.helpers import patch_class
         from odooku.request import WebRequestMixin
-
-        @patch_class(globals()['HttpRequest'])
-        class HttpRequest(WebRequestMixin):
+        class HttpRequest(WebRequestMixin, globals()['HttpRequest']):
             pass
 
         return locals()
@@ -20,12 +17,9 @@ class patch_json_request(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
         from odooku.request import WebRequestMixin
 
-        @patch_class(globals()['JsonRequest'])
-        class JsonRequest(WebRequestMixin):
+        class JsonRequest(WebRequestMixin, globals()['JsonRequest']):
             pass
 
         return locals()
@@ -35,13 +29,11 @@ class patch_root(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
+        
         from odooku.backends import get_backend
         from odooku.backends.redis import RedisSessionStore
 
-        @patch_class(globals()['Root'])
-        class Root(object):
+        class Root(globals()['Root']):
 
             @lazy_property
             def session_store(self):
@@ -83,12 +75,10 @@ class patch_session(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
+        
         from odooku.backends.redis import RedisSessionStore
 
-        @patch_class(globals()['OpenERPSession'])
-        class OpenERPSession(object):
+        class PatchedOpenERPSession(OpenERPSession):
 
             def save_request_data(self):
                 if isinstance(root.session_store, RedisSessionStore):
@@ -114,7 +104,9 @@ class patch_session(SoftPatch):
                     with self.load_request_data_() as data:
                         yield data
 
-        return locals()
+        return {
+            'OpenERPSession': PatchedOpenERPSession
+        }
 
 
 patch_root('odoo.http')

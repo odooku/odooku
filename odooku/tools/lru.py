@@ -95,7 +95,7 @@ class LRU(object):
         return iter(self.d)
 
     def itervalues(self):
-        for i,j in self.iteritems():
+        for i,j in self.items():
             yield j
 
     def keys(self):

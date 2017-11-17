@@ -1,5 +1,5 @@
-import urlparse
 import posixpath
+from urllib.parse import urlparse, urljoin
 
 import logging
 import boto3
@@ -47,8 +47,8 @@ class S3Backend(BaseBackend):
 
     def get_url(self, *parts):
         if self._custom_domain:
-            return urlparse.urljoin(self._custom_domain, posixpath.join(*parts))
-        return urlparse.urljoin(self.client.meta.endpoint_url, posixpath.join(self.bucket, *parts))
+            return urljoin(self._custom_domain, posixpath.join(*parts))
+        return urljoin(self.client.meta.endpoint_url, posixpath.join(self.bucket, *parts))
 
     @property
     def bucket(self):

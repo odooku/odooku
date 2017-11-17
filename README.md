@@ -7,7 +7,7 @@ deploy your codebase, migrate your data and more.
 ## Python packages
 
 ### odooku
-[![Build Status](https://travis-ci.org/odooku/odooku.svg?branch=10.0)](https://travis-ci.org/odooku/odooku)
+[![Build Status](https://travis-ci.org/odooku/odooku.svg?branch=11.0)](https://travis-ci.org/odooku/odooku)
 
 Wrapper package around Odoo that patches and extends Odoo to work in a service oriented environment.
 
@@ -23,7 +23,7 @@ Wrapper package around Odoo that patches and extends Odoo to work in a service o
 [View Github](https://github.com/odooku/odooku)
 
 ### odooku-odoo
-[![Build Status](https://travis-ci.org/odooku/odooku-odoo.svg?branch=10.0)](https://travis-ci.org/odooku/odooku-odoo)
+[![Build Status](https://travis-ci.org/odooku/odooku-odoo.svg?branch=11.0)](https://travis-ci.org/odooku/odooku-odoo)
 
 Pypi packaged Odoo providing an easy and reliable install method for Odoo.
 
@@ -38,7 +38,7 @@ Data serialization and deserialization library for migrations (docs comming soon
 ## Heroku deployment
 
 ### odooku-heroku-buildpack
-[![Build Status](https://travis-ci.org/odooku/odooku-heroku-buildpack.svg?branch=10.0)](https://travis-ci.org/odooku/odooku-heroku-buildpack)
+[![Build Status](https://travis-ci.org/odooku/odooku-heroku-buildpack.svg?branch=11.0)](https://travis-ci.org/odooku/odooku-heroku-buildpack)
 
 Heroku buildpack for Odooku.
 

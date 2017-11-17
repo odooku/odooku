@@ -5,12 +5,9 @@ class patch_registry_concurrency(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
         from gevent.lock import RLock
 
-        @patch_class(globals()['Registry'])
-        class Registry(object):
+        class Registry(globals()['Registry']):
             """ Model registry for a particular database.
 
             The registry is essentially a mapping between model names and model classes.

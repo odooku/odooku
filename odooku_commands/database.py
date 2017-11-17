@@ -37,7 +37,7 @@ def preload(ctx, db_name, module, demo_data):
         ctx.obj['config']
     )
 
-    from odoo.modules.registry import RegistryManager
+    from odoo.modules.registry import Registry
 
     if module:
         modules = {
@@ -46,7 +46,7 @@ def preload(ctx, db_name, module, demo_data):
         }
         config['init'] = dict(modules)
 
-    registry = RegistryManager.new(db_name, force_demo=demo_data, update_module=True)
+    registry = Registry.new(db_name, force_demo=demo_data, update_module=True)
 
 
 @click.command()
@@ -65,7 +65,7 @@ def update(ctx, db_name, module):
         ctx.obj['config']
     )
 
-    from odoo.modules.registry import RegistryManager
+    from odoo.modules.registry import Registry
 
     module = module or ['all']
     modules = {
@@ -75,7 +75,7 @@ def update(ctx, db_name, module):
 
     config['update'] = dict(modules)
     for db in db_name:
-        registry = RegistryManager.new(db, update_module=True)
+        registry = Registry.new(db, update_module=True)
 
 
 @click.command()
@@ -89,10 +89,10 @@ def newdbuuid(ctx, db_name):
         ctx.obj['config']
     )
 
-    from odoo.modules.registry import RegistryManager
+    from odoo.modules.registry import Registry
     from odooku.api import environment
 
-    registry = RegistryManager.get(db_name)
+    registry = Registry.get(db_name)
     with registry.cursor() as cr:
         with environment(cr) as env:
             env['ir.config_parameter'].init(force=True)

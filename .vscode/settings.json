@@ -4,6 +4,7 @@
     "search.useIgnoreFilesByDefault": true,
     "files.exclude": {
         "**/*.egg-info": true,
+        "**/__pycache__": true,
         "**/*.pyc": true,
         "**/.venv": true,
         "**/.git": true,

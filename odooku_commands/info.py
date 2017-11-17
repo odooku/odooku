@@ -21,6 +21,6 @@ def info(ctx):
     )
 
     from odoo.modules import get_modules
-    print INFO_MESSAGE.format(
+    print(INFO_MESSAGE.format(
         num_modules=len(get_modules())
-    )
+    ))

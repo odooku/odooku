@@ -47,7 +47,7 @@ def runtests(ctx, db_name, module):
 
     # Now import further
     from odoo.tests.common import PORT
-    from odoo.modules.registry import RegistryManager
+    from odoo.modules.registry import Registry
     from odoo.service.db import _create_empty_database
     from odooku.services.wsgi import WSGIServer
 
@@ -61,7 +61,7 @@ def runtests(ctx, db_name, module):
     gevent.spawn(server.serve_forever)
 
     def runtests():
-        registry = RegistryManager.new(db_name)
+        registry = Registry.new(db_name)
         total = (registry._assertion_report.successes + registry._assertion_report.failures)
         failures = registry._assertion_report.failures
         logger.info("Completed (%s) tests. %s failures." % (total, failures))

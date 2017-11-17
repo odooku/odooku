@@ -17,9 +17,9 @@ __all__ = [
 )
 @click.pass_context
 def shell(ctx, input_file, db_name):
-    from odoo.modules.registry import RegistryManager
+    from odoo.modules.registry import Registry
     from odooku.api import environment
-    registry = RegistryManager.get(db_name)
+    registry = Registry.get(db_name)
 
     with registry.cursor() as cr:
         with environment(cr) as env:

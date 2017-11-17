@@ -11,7 +11,7 @@ repo_url: 'https://github.com/odooku/odooku'
 
 # Theme customization
 extra:
-  version: '10.0'
+  version: '11.0'
   author:
     github: 'adaptivdesign'
   font:

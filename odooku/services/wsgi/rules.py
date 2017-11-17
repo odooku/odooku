@@ -1,7 +1,7 @@
 import os.path
 import json
 import re
-from urlparse import urlparse, urlunparse
+from urllib.parse import urlparse, urlunparse
 import logging
 
 from werkzeug.wsgi import get_current_url
@@ -82,7 +82,7 @@ class WSGIApplicationRulesWrapper(object):
     @classmethod
     def factory(cls, rules):
         return type(cls.__name__, (cls,), {
-            '_rules': [Rule(pattern, **options) for (pattern, options) in rules.iteritems()]
+            '_rules': [Rule(pattern, **options) for (pattern, options) in rules.items()]
         })
 
     @classmethod

@@ -1,5 +1,6 @@
 import sys
 import importlib
+from importlib.machinery import PathFinder
 from types import FunctionType, ModuleType
 
 
@@ -8,10 +9,6 @@ class SoftPatch(object):
     def __init__(self, module_name):
         self.module_name = module_name
         patcher._register(module_name, self)
-
-    def _apply_patch(self, module):
-        apply_patch = FunctionType(self.apply_patch.func_code, module.__dict__)
-        module.__dict__.update(apply_patch())
 
     @staticmethod
     def apply_patch():
@@ -23,64 +20,82 @@ class HardPatch(object):
     def __init__(self, module_name):
         self.module_name = module_name
         patcher._register(module_name, self)
-
-    def _create_module(self):
-        module = ModuleType(self.module_name)
-        apply_patch = FunctionType(self.apply_patch.func_code, dict(globals(), **module.__dict__))
-        module.__dict__.update(apply_patch())
-        return module
-
+    
     @staticmethod
     def apply_patch():
         return {}
 
 
+# https://github.com/python/cpython/blob/3.6/Lib/importlib/_bootstrap_external.py
+# look at this 
+
+class SoftPatchLoader(object):
+    
+    patches = None
+
+    def exec_module(self, module):
+        super(SoftPatchLoader, self).exec_module(module)
+        for patch in self.patches:
+            apply_patch = FunctionType(patch.apply_patch.__code__, module.__dict__)
+            module.__dict__.update(apply_patch())
+
+
+class HardPatchLoader(object):
+    
+    patch = None
+    
+    def create_module(self, spec):
+        module = ModuleType(self.patch.module_name)
+        apply_patch = FunctionType(self.patch.apply_patch.__code__, dict(globals(), **module.__dict__))
+        module.__dict__.update(apply_patch())
+        return module
+
+
 class Patcher(object):
 
     def __init__(self):
-        self._patch = {}
+        self._soft_patch_loaders = {}
+        self._hard_patch_loaders = {}
         self._soft_patches = {}
         self._hard_patches = {}
-        self._loaded = {}
-        self._loading = {}
 
-    def _register(self, module_name, patch):
+    def _register(self, fullname, patch):
         if isinstance(patch, SoftPatch):
-            if module_name not in self._soft_patches:
-                self._soft_patches[module_name] = []
-            self._soft_patches[module_name].append(patch)
+            if fullname not in self._soft_patches:
+                self._soft_patches[fullname] = []
+            self._soft_patches[fullname].append(patch)
         elif isinstance(patch, HardPatch):
-            self._hard_patches[module_name] = patch
+            self._hard_patches[fullname] = patch
         else:
             raise TypeError(type(patch))
 
-        self._patch[module_name] = True
+    def _wrap_soft_patches(self, loader, patches):
+        loader_cls = type(loader)
+        if loader_cls not in self._soft_patch_loaders:
+            self._soft_patch_loaders[loader_cls] = type('Patch%s' % loader_cls.__name__, (SoftPatchLoader, loader_cls,), {})
+        loader.__class__ = self._soft_patch_loaders[loader_cls]
+        loader.patches = patches
 
-    def find_module(self, module_name, path=None):
-        if self._patch.get(module_name, False):
-            return self
+    def _wrap_hard_patch(self, loader, patch):
+        loader_cls = type(loader)
+        if loader_cls not in self._hard_patch_loaders:
+            self._hard_patch_loaders[loader_cls] = type('Patch%s' % loader_cls.__name__, (HardPatchLoader, loader_cls,), {})
+        loader.__class__ = self._hard_patch_loaders[loader_cls]
+        loader.patch = patch
 
-    def load_module(self, module_name):
-        if module_name not in self._loaded:
-            hard_patch = self._hard_patches.get(module_name, None)
-            if hard_patch:
-                module = hard_patch._create_module()
-                sys.modules[module_name] = module
-            else:
-                # Before actually importing, we have to bypass our
-                # find_module function.
-                self._patch[module_name] = False
-                module = importlib.import_module(module_name)
-                self._patch[module_name] = True
-
-            # Apply soft patches the module
-            for patch in self._soft_patches.get(module_name, []):
-                patch._apply_patch(module)
-
-            self._loaded[module_name] = module
-
-        return self._loaded[module_name]
-
-
+    def find_spec(self, fullname, path, target=None):
+        spec = None
+        if fullname in self._soft_patches or fullname in self._hard_patches:
+            spec = PathFinder.find_spec(fullname, path, target=target)
+            if spec is None:
+                raise Exception("Could not patch %s" % fullname)
+            
+            if fullname in self._soft_patches:
+                self._wrap_soft_patches(spec.loader, self._soft_patches[fullname])
+            elif fullname in self._hard_patches:
+                self._wrap_hard_patch(spec.loader, self._hard_patches[fullname])
+            
+        return spec
+            
 patcher = Patcher()
-sys.meta_path.append(patcher)
+sys.meta_path.insert(0, patcher)

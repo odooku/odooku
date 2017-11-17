@@ -68,7 +68,7 @@ __all__ = [
 )
 @click.option(
     '--server-wide-modules',
-    default='web,web_kanban',
+    default='web',
     callback=resolve_comma_seperated,
     envvar=prefix_envvar('SERVER_MODULES'),
     help="Server-wide modules to load."

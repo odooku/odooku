@@ -5,11 +5,7 @@ class patch_checksum(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
-
-        @patch_class(globals()['AssetsBundle'])
-        class AssetsBundle(object):
+        class AssetsBundle(globals()['AssetsBundle']):
 
             @func.lazy_property
             def checksum(self):
@@ -53,11 +49,8 @@ class patch_clean_attachments(SoftPatch):
 
     @staticmethod
     def apply_patch():
-
-        from odooku.patch.helpers import patch_class
-
-        @patch_class(globals()['AssetsBundle'])
-        class AssetsBundle(object):
+        
+        class AssetsBundle(globals()['AssetsBundle']):
 
             def clean_attachments(self, type):
                 try:

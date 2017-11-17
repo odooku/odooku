@@ -32,7 +32,7 @@ class WebSocketChannel(object):
             httprequest.environ.update({
                 'HTTP_%s' % key.replace('-', '_').upper(): val
                 for key, val
-                in payload.get('headers').iteritems()
+                in payload.get('headers').items()
             })
 
         if 'rpc' in payload:
@@ -40,7 +40,7 @@ class WebSocketChannel(object):
 
     def run_forever(self, ping_delay):
         while True:
-            for ws, state in dict(self._wss).iteritems():
+            for ws, state in dict(self._wss).items():
                 if ws.closed:
                     self._remove(ws)
                     continue

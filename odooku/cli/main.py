@@ -1,7 +1,7 @@
 import click
-import urlparse
 import importlib
 import pkgutil
+from urllib.parse import urlparse
 
 from odooku.params import params
 from odooku.helpers.env import prefix_envvar
@@ -131,7 +131,7 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
 
     # Setup Redis
     if redis_url:
-        redis_url = urlparse.urlparse(redis_url)
+        redis_url = urlparse(redis_url)
         register_backend('redis', RedisBackend(
             host=redis_url.hostname,
             port=redis_url.port,
@@ -143,7 +143,7 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
     # Setup PTVSD
     if ptvsd_url:
         if ptvsd:
-            ptvsd_url = urlparse.urlparse(ptvsd_url)
+            ptvsd_url = urlparse(ptvsd_url)
             ptvsd.enable_attach(ptvsd_url.password, address = (ptvsd_url.hostname, ptvsd_url.port))
             logger.warning("PTVSD Enabled")
         else:
@@ -168,7 +168,7 @@ def main(ctx, database_url, database_maxconn, redis_url, redis_maxconn,
     config['debug_mode'] = debug
 
     if database_url:
-        database_url = urlparse.urlparse(database_url)
+        database_url = urlparse(database_url)
         db_name = database_url.path[1:] if database_url.path else False
         config['db_name'] = db_name
         config['db_user'] = database_url.username

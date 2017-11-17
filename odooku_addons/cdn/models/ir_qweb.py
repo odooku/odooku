@@ -90,7 +90,7 @@ class IrQWeb(models.AbstractModel):
             # Shortcircuit
             return atts
 
-        for name, value in atts.iteritems():
+        for name, value in atts.items():
             atts[name] = self._cdn_build_attribute(tagName, name, value, options, values)
         return atts
 

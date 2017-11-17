@@ -2,7 +2,7 @@ import gevent
 
 from odoo.service.db import list_dbs
 from odoo.sql_db import close_db
-from odoo.modules.registry import RegistryManager
+from odoo.modules.registry import Registry
 
 import logging
 
@@ -15,7 +15,7 @@ class CronRunner(object):
         import odoo.addons.base as base
         acquired = base.ir.ir_cron.ir_cron._acquire_job(db_name)
         if cleanup:
-            RegistryManager.delete(db_name)
+            Registry.delete(db_name)
             close_db(db_name)
         return acquired
 

@@ -13,7 +13,7 @@ class RedisSessionStore(SessionStore):
         self._key_template = key_template
 
     def get_session_key(self, sid):
-        if isinstance(sid, unicode):
+        if isinstance(sid, str):
             sid = sid.encode('utf-8')
         return self._key_template % sid
 

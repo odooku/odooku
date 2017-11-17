@@ -92,7 +92,7 @@ class OdookuLogger(logging.Logger):
     def _sock_send(self, msg):
         try:
             if self._statsd_sock is not None:
-                if isinstance(msg, unicode):
+                if isinstance(msg, str):
                     msg = msg.encode("ascii")
                 self._statsd_sock.send(msg)
         except Exception:
