@@ -7,6 +7,7 @@ import werkzeug.wrappers
 from geventwebsocket.exceptions import WebSocketError
 
 import odoo
+from odoo.tools import ustr
 
 from .requests import WebSocketRpcRequest
 
@@ -69,7 +70,6 @@ class WebSocketChannel(object):
                     result = {}
                 else:
                     result = ir_http._dispatch()
-                    ir_http.pool.signal_caches_change()
 
         return result
 
@@ -97,7 +97,7 @@ class WebSocketChannel(object):
             })
 
         try:
-            ws.send(json.dumps(response))
+            ws.send(json.dumps(response, default=ustr))
         except WebSocketError:
             pass
 

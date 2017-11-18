@@ -5,9 +5,12 @@ class patch_registry_concurrency(SoftPatch):
 
     @staticmethod
     def apply_patch():
-        from gevent.lock import RLock
 
-        class Registry(globals()['Registry']):
+        from odooku.patch.helpers import patch_class
+        from gevent.lock import RLock
+        
+        @patch_class(globals()['Registry'])
+        class Registry(object):
             """ Model registry for a particular database.
 
             The registry is essentially a mapping between model names and model classes.
@@ -53,8 +56,9 @@ class patch_registry_concurrency(SoftPatch):
                             registry.setup_signaling()
                             # This should be a method on Registry
                             odoo.modules.load_modules(registry._db, force_demo, status, update_module)
-                        except Exception:
+                        except Exception as ex:
                             _logger.exception('Failed to load registry')
+                            _logger.exception(ex, exc_info=True)
                             del cls.registries[db_name]
                             raise
 
@@ -70,10 +74,7 @@ class patch_registry_concurrency(SoftPatch):
                             cr.commit()
 
                 registry.ready = True
-
-                if update_module:
-                    # only in case of update, otherwise we'll have an infinite reload loop!
-                    registry.signal_registry_change()
+                registry.registry_invalidated = bool(update_module)
                 return registry
 
             @classmethod
@@ -109,7 +110,7 @@ class patch_registry_concurrency(SoftPatch):
                 assert self._saved_lock is not None
                 self._lock = self._saved_lock
                 self._saved_lock = None
-
+        
         return locals()
 
 

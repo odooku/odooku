@@ -2,6 +2,7 @@ from werkzeug.contrib.sessions import SessionStore
 
 import json
 
+
 SESSION_TIMEOUT = 60*60*24*7 # 7 weeks in seconds
 
 
@@ -29,7 +30,7 @@ class RedisSessionStore(SessionStore):
         if self.is_valid_key(sid):
             data = self._backend.client.get(self.get_session_key(sid))
             if data:
-                return self.session_class(json.loads(data), sid, False)
+                return self.session_class(json.loads(data.decode('utf-8')), sid, False)
         return self.new()
 
     def list(self):

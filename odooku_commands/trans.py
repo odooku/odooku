@@ -32,7 +32,7 @@ def export(ctx, language, db_name, module):
     from odoo.api import Environment
     from odoo.tools import trans_export
     with tempfile.TemporaryFile() as t:
-        registry = Registry.get(db_name)
+        registry = Registry(db_name)
         with Environment.manage():
             with registry.cursor() as cr:
                 trans_export(language, modules, t, 'po', cr)
@@ -67,7 +67,7 @@ def import_(ctx, language, db_name, overwrite):
     from odoo.tools import trans_load
 
     with tempfile.NamedTemporaryFile(suffix='.po', delete=False) as t:
-        registry = Registry.get(db_name)
+        registry = Registry(db_name)
 
         # Read from stdin
         while True:
@@ -117,7 +117,7 @@ def update(ctx, db_name, module, language, overwrite):
 
 
     for db in db_name:
-        registry = Registry.get(db)
+        registry = Registry(db)
         with registry.cursor() as cr:
             with environment(cr) as env:
                 mods = env['ir.module.module'].search(domain)

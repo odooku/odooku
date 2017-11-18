@@ -19,7 +19,7 @@ __all__ = [
 def shell(ctx, input_file, db_name):
     from odoo.modules.registry import Registry
     from odooku.api import environment
-    registry = Registry.get(db_name)
+    registry = Registry(db_name)
 
     with registry.cursor() as cr:
         with environment(cr) as env:

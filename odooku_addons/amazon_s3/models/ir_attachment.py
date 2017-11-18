@@ -1,5 +1,6 @@
 import os
 import logging
+import base64
 
 from odoo import api, fields, models, tools, _
 
@@ -56,7 +57,7 @@ class IrAttachment(models.Model):
         for attach in self:
             # compute the fields that depend on datas
             value = attach.datas
-            bin_data = value and value.decode('base64') or ''
+            bin_data = base64.b64decode(value) if value else b''
             vals = {
                 'file_size': len(bin_data),
                 'checksum': self._compute_checksum(bin_data),
@@ -136,13 +137,13 @@ class IrAttachment(models.Model):
 
         bin_data = r['Body'].read()
         checksum = self._compute_checksum(bin_data)
-        value = bin_data.encode('base64')
+        value = base64.b64encode(bin_data)
         super(IrAttachment, self)._file_write(value, checksum)
 
     @api.model
     def _s3_put(self, fname, content_type='application/octet-stream'):
         value = super(IrAttachment, self)._file_read(fname)
-        bin_data = value.decode('base64')
+        bin_data = base64.b64decode(value)
 
         key = self._s3_key(fname)
         _logger.info("S3 (%s) put '%s'", s3_backend.bucket, key)

@@ -5,7 +5,11 @@ class patch_checksum(SoftPatch):
 
     @staticmethod
     def apply_patch():
-        class AssetsBundle(globals()['AssetsBundle']):
+
+        from odooku.patch.helpers import patch_class
+
+        @patch_class(globals()['AssetsBundle'])
+        class AssetsBundle(object):
 
             @func.lazy_property
             def checksum(self):
@@ -14,7 +18,7 @@ class patch_checksum(SoftPatch):
                 We compute a SHA1 on the rendered bundle + max linked files last_modified date
                 """
                 check = str([sorted(f.items()) for f in self.files] + self.remains + [self.last_modified])
-                return hashlib.sha1(check).hexdigest()
+                return hashlib.sha1(check.encode('utf-8')).hexdigest()
 
         return locals()
 
@@ -28,7 +32,7 @@ class patch_module_installed(SoftPatch):
 
         def module_installed(environment):
             # Candidates module the current heuristic is the /static dir
-            loadable = http.addons_manifest.keys()
+            loadable = list(http.addons_manifest)
 
             # Retrieve database installed modules
             # TODO The following code should move to ir.module.module.list_installed_modules()
@@ -41,7 +45,6 @@ class patch_module_installed(SoftPatch):
 
             sorted_modules = topological_sort(modules)
             return sorted_modules
-
         return locals()
 
 
@@ -49,8 +52,11 @@ class patch_clean_attachments(SoftPatch):
 
     @staticmethod
     def apply_patch():
-        
-        class AssetsBundle(globals()['AssetsBundle']):
+
+        from odooku.patch.helpers import patch_class
+
+        @patch_class(globals()['AssetsBundle'])
+        class AssetsBundle(object):
 
             def clean_attachments(self, type):
                 try:

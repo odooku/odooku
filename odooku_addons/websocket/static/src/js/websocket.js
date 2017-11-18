@@ -88,6 +88,7 @@ odoo.define('websocket.WebSocket', function(require) {
       var d = $.Deferred();
       if(!this._ws) {
         this._ws = new WebSocket(this._uri);
+        console.log("Creating websocket: " + this._uri);
         this._bind(this._ws);
         this._connecting = true;
       }

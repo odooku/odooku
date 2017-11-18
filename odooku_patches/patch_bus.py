@@ -206,7 +206,6 @@ class patch_bus(HardPatch):
                 return self
 
         dispatch = ImDispatch().start()
-
         return locals()
 
 

@@ -7,7 +7,7 @@
             odoo._ws_enabled = <t t-raw="get_ws_enabled()"/>;
         </script>
 				<script type="application/javascript" src="/websocket/static/src/js/websocket.js"/>
-				<script type="application/javascript" src="/websocket/static/src/js/session.js"/>
+				<script type="application/javascript" src="/websocket/static/src/js/ajax.js"/>
 			</xpath>
 	  </template>
 	</data>

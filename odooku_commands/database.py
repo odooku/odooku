@@ -92,7 +92,7 @@ def newdbuuid(ctx, db_name):
     from odoo.modules.registry import Registry
     from odooku.api import environment
 
-    registry = Registry.get(db_name)
+    registry = Registry(db_name)
     with registry.cursor() as cr:
         with environment(cr) as env:
             env['ir.config_parameter'].init(force=True)

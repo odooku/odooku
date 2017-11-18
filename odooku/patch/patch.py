@@ -43,12 +43,13 @@ class SoftPatchLoader(object):
 class HardPatchLoader(object):
     
     patch = None
-    
-    def create_module(self, spec):
-        module = ModuleType(self.patch.module_name)
+
+    def exec_module(self, module):
         apply_patch = FunctionType(self.patch.apply_patch.__code__, dict(globals(), **module.__dict__))
         module.__dict__.update(apply_patch())
-        return module
+    
+    def create_module(self, spec):
+        return ModuleType(self.patch.module_name)
 
 
 class Patcher(object):

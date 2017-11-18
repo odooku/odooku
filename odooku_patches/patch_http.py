@@ -6,8 +6,11 @@ class patch_http_request(SoftPatch):
     @staticmethod
     def apply_patch():
 
+        from odooku.patch.helpers import patch_class
         from odooku.request import WebRequestMixin
-        class HttpRequest(WebRequestMixin, globals()['HttpRequest']):
+
+        @patch_class(globals()['HttpRequest'])
+        class HttpRequest(WebRequestMixin):
             pass
 
         return locals()
@@ -17,9 +20,12 @@ class patch_json_request(SoftPatch):
 
     @staticmethod
     def apply_patch():
+
+        from odooku.patch.helpers import patch_class
         from odooku.request import WebRequestMixin
 
-        class JsonRequest(WebRequestMixin, globals()['JsonRequest']):
+        @patch_class(globals()['JsonRequest'])
+        class JsonRequest(WebRequestMixin):
             pass
 
         return locals()
@@ -29,11 +35,13 @@ class patch_root(SoftPatch):
 
     @staticmethod
     def apply_patch():
-        
+
+        from odooku.patch.helpers import patch_class
         from odooku.backends import get_backend
         from odooku.backends.redis import RedisSessionStore
 
-        class Root(globals()['Root']):
+        @patch_class(globals()['Root'])
+        class Root(object):
 
             @lazy_property
             def session_store(self):
@@ -75,10 +83,12 @@ class patch_session(SoftPatch):
 
     @staticmethod
     def apply_patch():
-        
+
+        from odooku.patch.helpers import patch_class
         from odooku.backends.redis import RedisSessionStore
 
-        class PatchedOpenERPSession(OpenERPSession):
+        @patch_class(globals()['OpenERPSession'])
+        class OpenERPSession(object):
 
             def save_request_data(self):
                 if isinstance(root.session_store, RedisSessionStore):
@@ -103,10 +113,8 @@ class patch_session(SoftPatch):
                 else:
                     with self.load_request_data_() as data:
                         yield data
-
-        return {
-            'OpenERPSession': PatchedOpenERPSession
-        }
+        
+        return locals()
 
 
 patch_root('odoo.http')
