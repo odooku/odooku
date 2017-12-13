@@ -135,8 +135,12 @@ odoo.define('websocket.WebSocket', function(require) {
     }
   });
 
-
-
   return _WebSocket;
 
+});
+
+odoo.define('websocket', function(require) {
+  return {
+    ws: false
+  }
 });

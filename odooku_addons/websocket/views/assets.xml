@@ -2,12 +2,15 @@
 <odoo>
 	<data>
 		<template id="assets_common" inherit_id="web.assets_common" name="Websocket">
+			<script type="text/javascript" src="/web/static/src/js/core/ajax.js" position="replace"/>
 			<xpath expr="script[last()]" position="after">
 				<script type="text/javascript" charset="utf-8">
             odoo._ws_enabled = <t t-raw="get_ws_enabled()"/>;
         </script>
 				<script type="application/javascript" src="/websocket/static/src/js/websocket.js"/>
+				<script type="application/javascript" src="/websocket/static/src/js/ajax.original.js"/>
 				<script type="application/javascript" src="/websocket/static/src/js/ajax.js"/>
+				<script type="application/javascript" src="/websocket/static/src/js/session.js"/>
 			</xpath>
 	  </template>
 	</data>

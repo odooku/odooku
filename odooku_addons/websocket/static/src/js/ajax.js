@@ -2,21 +2,8 @@ odoo.define('web.ajax', function(require) {
     'use strict';
 
   var core = require('web.core');
-  var ajax = require('web.ajax');
-  var Session = require('web.Session');
-  var WebSocket = require('websocket.WebSocket');
-  
-  // Will be set upon session setup
-  var ws = false;
-
-  Session.include({
-    setup: function() {
-      this._super.apply(this, arguments);
-      if (ws) ws.destroy();
-      var uri = this.origin.replace('http://', 'ws://').replace('https://', 'wss://');
-      ws = new WebSocket(uri);
-    }
-  });
+  var ajax = require('web.ajax.original');
+  var websocket = require('websocket');
 
   // Copied from https://github.com/odoo/odoo/blob/11.0/addons/web/static/src/js/core/ajax.js
   function genericJsonRpc (fct_name, params, fct) {
@@ -52,9 +39,9 @@ odoo.define('web.ajax', function(require) {
   function jsonRpc(url, fct_name, params, settings) {
     var fallback = _jsonRpc.bind(this, url, fct_name, params, settings);
     // check for relative url
-    if (ws && ws.enabled()) {
+    if (websocket.ws && websocket.ws.enabled()) {
       return genericJsonRpc(fct_name, params, function(rpc) {
-        return ws.send(_.extend({}, settings, {
+        return websocket.ws.send(_.extend({}, settings, {
           path: url,
           rpc: rpc
         }));
