@@ -29,7 +29,7 @@ setup(
         'click==6.6',
         'redis==2.10.5',
         'bpython==0.15.0',
-        'gevent==1.1.2',
+        'gevent==1.2.2',
         'psycogreen==1.0',
         'gevent-websocket==0.10.1'
     ],
