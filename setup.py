@@ -16,11 +16,6 @@ setup(
     long_description=long_description,
     license='Apache Software License',
     packages=find_packages(),
-    namespace_packages=[
-        'odooku_addons',
-        'odooku_commands',
-        'odooku_patches'
-    ],
     include_package_data=True,
     zip_safe=False,
     python_requires='>=3.5',
