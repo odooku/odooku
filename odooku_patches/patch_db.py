@@ -36,7 +36,7 @@ class patch_dump_db(SoftPatch):
                     # PATCH !!
                     # Instead of copying the filestore directory, read
                     # all attachments from filestore/s3-bucket
-                    registry = odoo.modules.registry.RegistryManager.new(db_name)
+                    registry = odoo.modules.registry.Registry.new(db_name)
                     # We need all attachments, bypass regular search
                     with registry.cursor() as cr:
                         env = api.Environment(cr, SUPERUSER_ID, {})
@@ -85,7 +85,7 @@ class patch_restore_db(SoftPatch):
         from odoo import api, models, SUPERUSER_ID
 
         def restore_db(db_name, dump_file, copy=False):
-            assert isinstance(db_name, basestring)
+            assert isinstance(db_name, str)
             if exp_db_exist(db_name):
                 _logger.info('RESTORE DB: %s already exists', db_name)
                 raise Exception("Database already exists")

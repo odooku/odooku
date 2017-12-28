@@ -131,7 +131,7 @@ def dump(ctx, db_name, s3_file):
                 chunk = t.read(CHUNK_SIZE)
                 if not chunk:
                     break
-                sys.stdout.write(chunk)
+                sys.stdout.buffer.write(chunk)
 
 
 @click.command()
@@ -167,7 +167,7 @@ def restore(ctx, db_name, copy, s3_file):
         else:
             # Read from stdin
             while True:
-                chunk = sys.stdin.read(CHUNK_SIZE)
+                chunk = sys.stdin.buffer.read(CHUNK_SIZE)
                 if not chunk:
                     break
                 t.write(chunk)

@@ -71,7 +71,7 @@ class IrQWeb(models.AbstractModel):
             else:
                 return item
 
-        return map(process, items)
+        return list(map(process, items))
 
     def _compile_static_attributes(self, el, options):
         items = super(IrQWeb, self)._compile_static_attributes(el, options)
