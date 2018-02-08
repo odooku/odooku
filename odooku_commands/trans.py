@@ -154,7 +154,7 @@ def update(ctx, db_name, module, language, overwrite):
         with registry.cursor() as cr:
             with environment(cr) as env:
                 mods = env['ir.module.module'].search(domain)
-                mods.with_context(overwrite=overwrite).update_translations(language)
+                mods.with_context(overwrite=overwrite)._update_translations(language)
 
 
 @click.group()
