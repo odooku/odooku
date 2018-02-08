@@ -59,21 +59,22 @@ def preload(ctx, db_name, module, demo_data):
     '--module',
     multiple=True
 )
+@click.option(
+    '--init',
+    is_flag=True
+)
 @click.pass_context
-def update(ctx, db_name, module):
+def update(ctx, db_name, module, init):
     config = (
         ctx.obj['config']
     )
 
     from odoo.modules.registry import Registry
-
-    module = module or ['all']
-    modules = {
+    config['init' if init else 'update'] = {
         module_name: 1
-        for module_name in module
+        for module_name in  module or ['all']
     }
-
-    config['update'] = dict(modules)
+    
     for db in db_name:
         registry = Registry.new(db, update_module=True)
 
