@@ -10,6 +10,9 @@ odoo.define('websocket.session', function(require) {
       this._super.apply(this, arguments);
       if (websocket.ws) websocket.ws.destroy();
       var uri = this.origin.replace('http://', 'ws://').replace('https://', 'wss://');
+      if (odoo.debug) {
+        uri += '?debug=' + $.deparam($.param.querystring()).debug;
+      }
       websocket.ws = new WebSocket(uri);
     }
   });

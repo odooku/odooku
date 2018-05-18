@@ -26,7 +26,6 @@ class WebSocketRpcRequest(WebSocketRequest):
         self.context = self.params.pop('context', dict(self.session.context))
 
     def dispatch(self):
-
         try:
             result = self._call_function(**self.params)
         except Exception as exception:
