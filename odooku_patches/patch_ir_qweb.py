@@ -1,28 +1,6 @@
 from odooku.patch import SoftPatch
 
 
-class patch_checksum(SoftPatch):
-
-    @staticmethod
-    def apply_patch():
-
-        from odooku.patch.helpers import patch_class
-
-        @patch_class(globals()['AssetsBundle'])
-        class AssetsBundle(object):
-
-            @func.lazy_property
-            def checksum(self):
-                """
-                Not really a full checksum.
-                We compute a SHA1 on the rendered bundle + max linked files last_modified date
-                """
-                check = str([sorted(f.items()) for f in self.files] + self.remains + [self.last_modified])
-                return hashlib.sha1(check.encode('utf-8')).hexdigest()
-
-        return locals()
-
-
 class patch_module_installed(SoftPatch):
 
     @staticmethod
@@ -74,6 +52,5 @@ class patch_clean_attachments(SoftPatch):
         return locals()
 
 
-patch_checksum('odoo.addons.base.ir.ir_qweb.assetsbundle')
 patch_module_installed('odoo.addons.web.controllers.main')
 patch_clean_attachments('odoo.addons.base.ir.ir_qweb.assetsbundle')
