@@ -6,6 +6,7 @@ import odoo
 from odoo import models, tools, SUPERUSER_ID
 from odoo.http import request
 from odoo.addons.base.ir.ir_qweb.assetsbundle import AssetsBundle
+from collections import OrderedDict
 
 from odooku.backends import get_backend
 from odooku.params import params
@@ -103,6 +104,18 @@ class IrQWeb(models.AbstractModel):
         # Commit_assetsbundle is assigned when rendering a pdf.
         # We use it to distinguish between web and pdf report asset url's.
         # hackish !!
-        if CDN_ENABLED and s3_backend and not options.get('commit_assetsbundle'):
+        use_cdn = CDN_ENABLED and s3_backend and not options.get('commit_assetsbundle')
+        if use_cdn:
             values = dict(values or {}, url_for=self._cdn_url)
-        return super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+        elements = super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+
+        if use_cdn:
+            # Inject crossorigin=anonymous
+            elements = [
+                (el[0], OrderedDict(el[1].items(), **{
+                    'crossorigin': 'anonymous'
+                }), el[2]) if el[0] == 'link' else el
+                for el in elements
+            ]
+
+        return elements
