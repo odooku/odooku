@@ -6,8 +6,8 @@
 
 #### requirements.txt
 ```
-odooku-odoo-addons>=10.0.0,<11.0.0
-odooku>=10.0.0,<11.0.0
+odooku-odoo-addons>=11.0.2,<12.0.0
+odooku>=11.0.6,<12.0.0
 ```
 
 #### Procfile
@@ -27,7 +27,7 @@ web: odooku --database-maxconn 20 --redis-maxconn 10 wsgi $PORT --cron --proxy-m
 Deploying Odooku requires a custom buildpack. Create your Heroku app like so:
 
 ``` bash
-heroku create --buildpack https://github.com/odooku/odooku-buildpack@10.0.git
+heroku create --buildpack https://github.com/odooku/odooku-buildpack.git#11.0
 ```
 
 ## Setup backing services
