@@ -8,7 +8,7 @@ except(IOError, ImportError):
 
 setup(
     name='odooku',
-    version='11.0.11',
+    version='11.0.12',
     url='https://github.com/odooku/odooku',
     author='Raymond Reggers - Adaptiv Design',
     author_email='raymond@adaptiv.nl',
@@ -21,12 +21,12 @@ setup(
     python_requires='>=3.5',
     install_requires=[
         'boto3>=1.4.0',
-        'click==6.6',
-        'redis==2.10.5',
-        'bpython==0.15.0',
-        'gevent==1.2.2',
-        'psycogreen==1.0',
-        'gevent-websocket==0.10.1'
+        'click>=6.6',
+        'redis>=2.10.5',
+        'bpython>=0.15.0',
+        'gevent>=1.2.2',
+        'psycogreen>=1.0',
+        'gevent-websocket>=0.10.1'
     ],
     entry_points='''
         [console_scripts]
