@@ -1,4 +1,4 @@
-from gevent.wsgi import WSGIServer as BaseWSGIServer
+from gevent.pywsgi import WSGIServer as BaseWSGIServer
 from werkzeug.debug import DebuggedApplication
 from werkzeug.contrib.fixers import ProxyFix
 
