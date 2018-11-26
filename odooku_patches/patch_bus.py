@@ -17,6 +17,7 @@ class patch_bus(HardPatch):
         import odoo
         from odoo import api, fields, models, SUPERUSER_ID
         from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
+        from odoo.tools import date_utils
 
         _logger = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ class patch_bus(HardPatch):
         # Bus
         #----------------------------------------------------------
         def json_dump(v):
-            return json.dumps(v, separators=(',', ':'))
+            return json.dumps(v, separators=(',', ':'), default=date_utils.json_default)
 
         def hashable(key):
             if isinstance(key, list):

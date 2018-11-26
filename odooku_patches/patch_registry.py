@@ -56,23 +56,17 @@ class patch_registry_concurrency(SoftPatch):
                             registry.setup_signaling()
                             # This should be a method on Registry
                             odoo.modules.load_modules(registry._db, force_demo, status, update_module)
-                        except Exception as ex:
-                            _logger.exception('Failed to load registry')
-                            _logger.exception(ex, exc_info=True)
+                        except Exception:
+                            _logger.exception('Failed to load registry', exc_info=True)
                             del cls.registries[db_name]
                             raise
 
                         # load_modules() above can replace the registry by calling
                         # indirectly new() again (when modules have to be uninstalled).
                         # Yeah, crazy.
-                        init_parent = registry._init_parent
                         registry = cls.registries[db_name]
-                        registry._init_parent.update(init_parent)
 
-                        with closing(registry.cursor()) as cr:
-                            registry.do_parent_store(cr)
-                            cr.commit()
-
+                registry._init = False
                 registry.ready = True
                 registry.registry_invalidated = bool(update_module)
                 return registry

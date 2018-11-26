@@ -176,8 +176,6 @@ class patch_list_dbs(SoftPatch):
             if params.no_db:
                 return []
             
-            if odoo.tools.config['db_name']:
-                return odoo.tools.config['db_name'].split(',')
             return original_list_dbs(force)
 
         return dict(list_dbs=patched_list_dbs)

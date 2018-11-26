@@ -5,7 +5,7 @@ import ast
 import odoo
 from odoo import models, tools, SUPERUSER_ID
 from odoo.http import request
-from odoo.addons.base.ir.ir_qweb.assetsbundle import AssetsBundle
+from odoo.addons.base.models.assetsbundle import AssetsBundle
 from collections import OrderedDict
 
 from odooku.backends import get_backend
@@ -95,19 +95,19 @@ class IrQWeb(models.AbstractModel):
             atts[name] = self._cdn_build_attribute(tagName, name, value, options, values)
         return atts
 
-    def _is_static_node(self, el):
+    def _is_static_node(self, el, options):
         cdn_att = self.CDN_TRIGGERS.get(el.tag, False)
-        return super(IrQWeb, self)._is_static_node(el) and \
+        return super(IrQWeb, self)._is_static_node(el, options) and \
                 (not cdn_att or not el.get(cdn_att))
 
-    def _get_asset(self, xmlid, options, css=True, js=True, debug=False, async=False, values=None):
+    def _get_asset(self, xmlid, options, css=True, js=True, debug=False, async_load=False, values=None):
         # Commit_assetsbundle is assigned when rendering a pdf.
         # We use it to distinguish between web and pdf report asset url's.
         # hackish !!
         use_cdn = CDN_ENABLED and s3_backend and not options.get('commit_assetsbundle')
         if use_cdn:
             values = dict(values or {}, url_for=self._cdn_url)
-        elements = super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async, values)
+        elements = super(IrQWeb, self)._get_asset(xmlid, options, css, js, debug, async_load, values)
 
         if use_cdn:
             # Inject crossorigin=anonymous

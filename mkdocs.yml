@@ -2,7 +2,7 @@ site_name: Odooku
 site_description: Run Odoo on Heroku (more platforms coming)
 site_author: Raymond Reggers
 site_url: http://odooku.github.io/odooku/
-copyright: Copyright (c) 2017 Raymond Reggers
+copyright: Copyright (c) 2018 Raymond Reggers
 
 theme: 'material'
 
@@ -11,7 +11,7 @@ repo_url: 'https://github.com/odooku/odooku'
 
 # Theme customization
 extra:
-  version: '11.0'
+  version: '12.0'
   author:
     github: 'adaptivdesign'
   font:

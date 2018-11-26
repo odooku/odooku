@@ -40,6 +40,12 @@ class patch_root(SoftPatch):
         from odooku.backends import get_backend
         from odooku.backends.redis import RedisSessionStore
 
+        def db_list(force=False, httprequest=None):
+            dbs = odoo.service.db.list_dbs(force)
+            incompatible_dbs = odoo.service.db.list_db_incompatible(dbs)
+            dbs = [db for db in dbs if db not in incompatible_dbs]
+            return db_filter(dbs, httprequest=httprequest)
+
         @patch_class(globals()['Root'])
         class Root(object):
 
@@ -89,7 +95,7 @@ class patch_session(SoftPatch):
 
         @patch_class(globals()['OpenERPSession'])
         class OpenERPSession(object):
-
+            
             def save_request_data(self):
                 if isinstance(root.session_store, RedisSessionStore):
                     req = request.httprequest

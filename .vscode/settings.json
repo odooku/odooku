@@ -6,7 +6,6 @@
         "**/*.egg-info": true,
         "**/__pycache__": true,
         "**/*.pyc": true,
-        "**/.venv": true,
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
