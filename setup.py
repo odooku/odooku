@@ -8,7 +8,7 @@ except(IOError, ImportError):
 
 setup(
     name='odooku',
-    version='11.0.13',
+    version='11.0.14',
     url='https://github.com/odooku/odooku',
     author='Raymond Reggers - Adaptiv Design',
     author_email='raymond@adaptiv.nl',

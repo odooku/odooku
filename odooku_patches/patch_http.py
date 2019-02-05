@@ -117,7 +117,34 @@ class patch_session(SoftPatch):
         return locals()
 
 
+class patch_db_filter(SoftPatch):
+    
+    @staticmethod
+    def apply_patch():
+
+        def db_filter(dbs, httprequest=None):
+            httprequest = httprequest or request.httprequest
+            h = httprequest.environ.get('HTTP_HOST', '').split(':')[0]
+            d, _, r = h.partition('.')
+            if d == "www" and r:
+                d = r.partition('.')[0]
+            if odoo.tools.config['dbfilter']:
+                h = h.replace('.', '_')
+                d, h = re.escape(d), re.escape(h)
+                r = odoo.tools.config['dbfilter'].replace('%h', h).replace('%d', d)
+                dbs = [i for i in dbs if re.match(r, i)]
+            elif odoo.tools.config['db_name']:
+                # In case --db-filter is not provided and --database is passed, Odoo will
+                # use the value of --database as a comma seperated list of exposed databases.
+                exposed_dbs = set(db.strip() for db in odoo.tools.config['db_name'].split(','))
+                dbs = sorted(exposed_dbs.intersection(dbs))
+            return dbs
+
+        return locals()
+
+
 patch_root('odoo.http')
 patch_http_request('odoo.http')
 patch_json_request('odoo.http')
 patch_session('odoo.http')
+patch_db_filter('odoo.http')
