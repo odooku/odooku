@@ -1,5 +1,5 @@
 twine==1.9.1
 mkdocs==0.16.3
 mkdocs-material==1.7.3
-pylint==1.7.2
+pylint==4.0.9
 ptvsd==3.1.0
